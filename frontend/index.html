@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advent Calendar | Gamified Activity Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Plus Jakarta Sans', 'sans-serif'] },
+        colors: {
+          sage: { 50: '#f4f7f5', 100: '#e3ebe6', 200: '#c7d8ce', 300: '#9fbcae', 400: '#749b89', 500: '#547f6c', 600: '#416556', 700: '#355246', 800: '#2d433a', 900: '#263831' },
+          warm: { 50: '#fdfbf7', 100: '#f7f3e8', 200: '#efe6cf' },
+        },
+      } },
+    };
+  </script>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="min-h-screen flex flex-col bg-warm-50 text-gray-800">
+  <header id="header" class="sticky top-0 z-30 bg-warm-50/90 backdrop-blur-md border-b border-sage-200/70"></header>
+  <main id="app" class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6"></main>
+  <footer class="text-center text-xs text-gray-400 py-6">Advent Calendar (SACA) &bull; Gamified activity platform &bull; Demo environment</footer>
+  <div id="toast-root" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+  <div id="modal-root"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

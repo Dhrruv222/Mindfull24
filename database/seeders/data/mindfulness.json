@@ -1,0 +1,218 @@
+[
+  {
+    "day": 1,
+    "title": "The 3-Breath Anchor",
+    "category": "Mindfulness",
+    "duration": "2 mins",
+    "icon": "ph-wind",
+    "description": "Pause everything you are doing. Take three slow, deliberate breaths: inhale for 4 seconds, hold for 4 seconds, and exhale softly for 6 seconds. Notice your shoulders dropping.",
+    "benefit": "Slow exhalations activate the parasympathetic nervous system, immediately lowering heart rate and cortisol."
+  },
+  {
+    "day": 2,
+    "title": "Gratitude Spotlight",
+    "category": "Journaling",
+    "duration": "5 mins",
+    "icon": "ph-sun-horizon",
+    "description": "Write down 3 ultra-specific things that went well in the last 24 hours. Instead of 'my friends', write 'the funny voice note Sarah sent me this morning'.",
+    "benefit": "Specificity trains your brain's reticular activating system to scan for positive moments throughout the day."
+  },
+  {
+    "day": 3,
+    "title": "Digital Sunset",
+    "category": "Boundaries",
+    "duration": "15 mins",
+    "icon": "ph-moon-stars",
+    "description": "Put your phone in another room or on Airplane Mode for the next 15 minutes (or 30 minutes before bed tonight). Use the quiet space to stretch or daydream.",
+    "benefit": "Reducing constant dopamine micro-hits restores baseline focus and improves sleep quality."
+  },
+  {
+    "day": 4,
+    "title": "The 2-Minute Tidy",
+    "category": "Environment",
+    "duration": "2 mins",
+    "icon": "ph-broom",
+    "description": "Pick one small surface near you—your desk corner, nightstand, or backpack. Set a 2-minute timer and clear away any clutter or trash.",
+    "benefit": "External order reduces visual cognitive load, freeing up working memory in your brain."
+  },
+  {
+    "day": 5,
+    "title": "Unsent Appreciation Text",
+    "category": "Connection",
+    "duration": "3 mins",
+    "icon": "ph-chat-circle-heart",
+    "description": "Message someone you haven't spoken to in a while just to tell them one thing you appreciate about them—with 'no need to reply!' at the end.",
+    "benefit": "Expressing warmth boosts oxytocin for both the sender and receiver while removing social pressure."
+  },
+  {
+    "day": 6,
+    "title": "5-4-3-2-1 Sensory Grounding",
+    "category": "Mindfulness",
+    "duration": "4 mins",
+    "icon": "ph-hand-palm",
+    "description": "Name 5 things you can see, 4 things you can physically feel, 3 things you can hear, 2 things you can smell, and 1 thing you appreciate about yourself right now.",
+    "benefit": "Sensory grounding interrupts anxious rumination by pulling attention back into the physical present."
+  },
+  {
+    "day": 7,
+    "title": "Hydration & Posture Check",
+    "category": "Body Care",
+    "duration": "2 mins",
+    "icon": "ph-drop",
+    "description": "Drink a full glass of water slowly. As you drink, unclench your jaw, drop your tongue from the roof of your mouth, and roll your shoulders back.",
+    "benefit": "Mild dehydration often masquerades as fatigue or irritability."
+  },
+  {
+    "day": 8,
+    "title": "Single-Tasking Sprint",
+    "category": "Focus",
+    "duration": "10 mins",
+    "icon": "ph-target",
+    "description": "Pick one small task you've been procrastinating on. Close all other browser tabs and work on ONLY that task for 10 minutes. Permission to stop when the timer ends!",
+    "benefit": "Overcoming activation energy is the hardest part of any task; starting shrinks perceived difficulty."
+  },
+  {
+    "day": 9,
+    "title": "Self-Compassion Reframe",
+    "category": "Mindset",
+    "duration": "5 mins",
+    "icon": "ph-heart-half",
+    "description": "Identify one thing you criticized yourself for recently. Rewrite that thought as if you were speaking to a dear friend in the exact same situation.",
+    "benefit": "Self-compassion builds emotional resilience far more effectively than harsh self-criticism."
+  },
+  {
+    "day": 10,
+    "title": "Music Mood Shift",
+    "category": "Energy",
+    "duration": "4 mins",
+    "icon": "ph-music-notes",
+    "description": "Put on one song that makes you feel nostalgic, energized, or peaceful. Do nothing else while it plays—just listen to the instruments and rhythm.",
+    "benefit": "Active music listening engages wide neural networks involved in emotion regulation."
+  },
+  {
+    "day": 11,
+    "title": "Micro-Walk Without Audio",
+    "category": "Movement",
+    "duration": "10 mins",
+    "icon": "ph-footprints",
+    "description": "Step outside for a 10-minute walk without headphones or podcasts. Let your thoughts wander freely and observe the sky, trees, or architecture.",
+    "benefit": "Unstructured quiet time activates the brain's Default Mode Network, sparking creative problem-solving."
+  },
+  {
+    "day": 12,
+    "title": "Brain Dump List",
+    "category": "Clarity",
+    "duration": "5 mins",
+    "icon": "ph-notebook",
+    "description": "Grab a piece of paper and write down every unfinished task, worry, or reminder floating in your head. Circle just ONE thing to care about today.",
+    "benefit": "Externalizing thoughts stops the Zeigarnik effect—your brain's tendency to loop on unfinished tasks."
+  },
+  {
+    "day": 13,
+    "title": "Compliment a Stranger or Peer",
+    "category": "Connection",
+    "duration": "2 mins",
+    "icon": "ph-smiley",
+    "description": "Give one genuine compliment today—to a barista, a coworker, or a classmate. Notice how their expression shifts.",
+    "benefit": "Micro-moments of positivity resonance strengthen our sense of community belonging."
+  },
+  {
+    "day": 14,
+    "title": "Box Breathing Reset",
+    "category": "Mindfulness",
+    "duration": "3 mins",
+    "icon": "ph-square",
+    "description": "Visualize a square. Inhale for 4 counts up the left side, hold for 4 across the top, exhale for 4 down the right, and hold for 4 across the bottom. Repeat 4 times.",
+    "benefit": "Used by first responders to regain calm and cognitive control under high stress."
+  },
+  {
+    "day": 15,
+    "title": "Curate Your Feed",
+    "category": "Boundaries",
+    "duration": "5 mins",
+    "icon": "ph-scissors",
+    "description": "Open your most-used social app and mute or unfollow 3 accounts that consistently make you feel inadequate, drained, or unnecessarily angry.",
+    "benefit": "Protecting your attentional diet prevents passive social comparison."
+  },
+  {
+    "day": 16,
+    "title": "Savoring Ritual",
+    "category": "Mindfulness",
+    "duration": "5 mins",
+    "icon": "ph-coffee",
+    "description": "During your next cup of tea, coffee, or snack, eat or drink the first three sips/bites at half speed. Notice the temperature, aroma, and texture.",
+    "benefit": "Savoring extends the duration of positive emotions and anchors you in the present."
+  },
+  {
+    "day": 17,
+    "title": "Done List (Instead of To-Do)",
+    "category": "Motivation",
+    "duration": "4 mins",
+    "icon": "ph-list-checks",
+    "description": "Write down 5 things you have already accomplished this week—even small wins like answering an email, cooking a meal, or showing up on a tough day.",
+    "benefit": "Celebrating small wins builds self-efficacy and momentum."
+  },
+  {
+    "day": 18,
+    "title": "Neck & Eye Release",
+    "category": "Body Care",
+    "duration": "3 mins",
+    "icon": "ph-eye",
+    "description": "Follow the 20-20-20 rule: look at something 20 feet away for 20 seconds, then gently tilt your right ear toward your right shoulder for 20 seconds. Switch sides.",
+    "benefit": "Relieves ocular strain and trapezius tension caused by screen posture."
+  },
+  {
+    "day": 19,
+    "title": "Permission to Say 'No'",
+    "category": "Boundaries",
+    "duration": "5 mins",
+    "icon": "ph-shield-check",
+    "description": "Identify one obligation, tab, or expectation you are carrying that isn't truly mandatory. Give yourself permission to drop, postpone, or simplify it.",
+    "benefit": "Every intentional 'no' creates space for a meaningful 'yes' to your wellbeing."
+  },
+  {
+    "day": 20,
+    "title": "Curiosity Rabbit Hole",
+    "category": "Joy",
+    "duration": "10 mins",
+    "icon": "ph-compass",
+    "description": "Spend 10 minutes reading or watching something purely out of curiosity—unrelated to work or productivity. How do whales sleep? How is glass made?",
+    "benefit": "Intrinsic curiosity refreshes mental energy and reminds you that learning is playful."
+  },
+  {
+    "day": 21,
+    "title": "Evening Worry Parking Lot",
+    "category": "Clarity",
+    "duration": "4 mins",
+    "icon": "ph-archive-box",
+    "description": "Write down any worry you have about tomorrow on a note. Fold it up and tell yourself: 'I have captured this; I will pick it up at 9 AM tomorrow.'",
+    "benefit": "Creates a psychological boundary between daytime problem-solving and rest."
+  },
+  {
+    "day": 22,
+    "title": "Body Scan Check-In",
+    "category": "Mindfulness",
+    "duration": "5 mins",
+    "icon": "ph-person-simple-tai-chi",
+    "description": "Close your eyes and mentally scan from your forehead down to your toes. Notice where you are holding tightness without judging it, and breathe warmth into that area.",
+    "benefit": "Improves interoceptive awareness—your ability to read your body's early stress signals."
+  },
+  {
+    "day": 23,
+    "title": "Letter to Future You",
+    "category": "Mindset",
+    "duration": "5 mins",
+    "icon": "ph-envelope-simple-open",
+    "description": "Write a 3-sentence note of encouragement to yourself one month from today. What habit or mindset from this calendar do you want to keep alive?",
+    "benefit": "Strengthens temporal connection with your future self, improving long-term decision-making."
+  },
+  {
+    "day": 24,
+    "title": "Celebrate Your Journey",
+    "category": "Reflection",
+    "duration": "5 mins",
+    "icon": "ph-trophy",
+    "description": "Look back at the doors you've opened and completed. Take a moment to acknowledge the time you carved out for your mental wellbeing. Leave your final reflection below!",
+    "benefit": "Consciously marking endings consolidates positive memories and habit identity."
+  }
+]

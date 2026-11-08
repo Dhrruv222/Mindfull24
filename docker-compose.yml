@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: saca-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: saca
+      POSTGRES_PASSWORD: saca_pw
+      POSTGRES_DB: saca
+    ports:
+      - "5544:5432"
+    volumes:
+      - saca_pg_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saca -d saca"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  saca_pg_data:

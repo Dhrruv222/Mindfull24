@@ -1,0 +1,6 @@
+tests
+docker
+docker-compose.yml
+documentation
+SACA_backlog*
+.env

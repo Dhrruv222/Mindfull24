@@ -1,0 +1,8 @@
+.door { transition: transform .2s cubic-bezier(.4, 0, .2, 1), box-shadow .2s; }
+.door:hover:not(:disabled) { transform: translateY(-3px); }
+.door:active:not(:disabled) { transform: scale(.97); }
+.door-pattern { background-image: radial-gradient(#749b89 .75px, transparent .75px); background-size: 12px 12px; }
+@keyframes popIn { from { opacity: 0; transform: scale(.94) translateY(8px); } to { opacity: 1; transform: none; } }
+.modal-animate { animation: popIn .2s cubic-bezier(.16, 1, .3, 1) forwards; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #c7d8ce; border-radius: 4px; }
