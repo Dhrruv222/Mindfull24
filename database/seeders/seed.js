@@ -148,7 +148,7 @@ async function seed() {
     db.release();
   }
 }
-module.exports = { seed, DEMO_PASSWORD, USERS };
+module.exports = { seed, DEMO_PASSWORD, USERS, REWARDS, buildCalendars };
 
 if (require.main === module) {
   seed()

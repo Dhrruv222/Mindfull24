@@ -36,6 +36,12 @@ npm start                   # http://localhost:3000
 
 ## Using Supabase
 
+**Option A: SQL Editor (no local setup).** In Supabase open **SQL Editor > New query**, paste the whole of
+[supabase/schema.sql](supabase/schema.sql) and run it, then paste and run [supabase/seed.sql](supabase/seed.sql)
+(demo accounts, calendars, rewards, sessions; password `Demo1234!`). Both files are generated from the migrations and seeder
+(`npm run db:export-sql`) and are safe to re-run: they only touch this app's tables.
+
+**Option B: from your machine.**
 1. In the Supabase dashboard open **Project Settings > Database > Connection string** and copy the **Session pooler** URI
    (it works over IPv4; the direct `db.<ref>.supabase.co` host is IPv6 only).
 2. Put it in `.env` as `DATABASE_URL=postgresql://postgres.<project-ref>:<your-password>@<pooler-host>:5432/postgres`.

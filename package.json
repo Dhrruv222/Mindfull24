@@ -12,6 +12,7 @@
     "db:up": "docker compose up -d --wait",
     "db:migrate": "node --env-file-if-exists=.env backend/migrations/run.js",
     "db:seed": "node --env-file-if-exists=.env database/seeders/seed.js",
+    "db:export-sql": "node database/seeders/export-sql.js",
     "db:reset": "node --env-file-if-exists=.env backend/migrations/run.js --fresh && node --env-file-if-exists=.env database/seeders/seed.js",
     "test": "node --env-file-if-exists=.env --test --test-concurrency=1 \"tests/unit/*.test.js\" \"tests/integration/*.test.js\"",
     "test:unit": "node --test \"tests/unit/*.test.js\""
