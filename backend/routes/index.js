@@ -27,6 +27,16 @@ const h = asyncHandler;
 
 router.get('/health', (_req, res) => res.json({ status: config.missing.length ? 'misconfigured' : 'ok', missing: config.missing }));
 
+router.get('/health/db', async (_req, res) => {
+  try {
+    const { pool } = require('../db');
+    const r = await pool.query('SELECT count(*)::int AS users FROM users');
+    res.json({ db: 'ok', users: r.rows[0].users });
+  } catch (e) {
+    res.status(500).json({ db: 'error', code: e.code || null, hint: String(e.message || '').replace(/postgres(ql)?:\/\/\S+/gi, '[hidden]').slice(0, 120) });
+  }
+});
+
 // --- Epic 1: accounts & profiles
 router.post('/register', authLimiter, h(async (req, res) => res.status(201).json(await auth.register(req.body || {}))));
 router.post('/login', authLimiter, h(async (req, res) => res.json(await auth.login(req.body || {}))));
