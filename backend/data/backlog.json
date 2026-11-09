@@ -1,0 +1,1434 @@
+{
+  "source": "Jira CSV export (SACA_backlog_Import_No_Assignee_No_Parent.csv)",
+  "live_sync": false,
+  "project": {
+    "name": "Smart Advent Calendar App (SACA)",
+    "timeline": {
+      "start": "2026-10-12",
+      "end": "2026-11-12"
+    },
+    "backlog_window": {
+      "start": "2026-11-02",
+      "end": "2026-11-12"
+    }
+  },
+  "team": [
+    "Dhrruv More",
+    "Nizar",
+    "Youssef"
+  ],
+  "not_in_export": [
+    "status",
+    "sprint",
+    "assignee",
+    "parent links",
+    "dependencies",
+    "blockers"
+  ],
+  "summary": {
+    "total": 47,
+    "epics": 8,
+    "stories": 9,
+    "tasks": 30,
+    "implementation": {
+      "implemented": 37,
+      "partial": 5,
+      "outstanding": 2,
+      "process": 3
+    },
+    "estimate_hours": 98
+  },
+  "items": [
+    {
+      "key": "SACA-1",
+      "type": "Epic",
+      "summary": "User Accounts & Profiles",
+      "description": "Deliver secure account access and a useful profile showing points balance and activity history.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "accounts",
+        "profiles",
+        "release-core"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "implemented",
+        "module": "Accounts & profiles",
+        "evidence": "Epic 1 integration tests",
+        "notes": "Register, login, logout, profile, history."
+      }
+    },
+    {
+      "key": "SACA-2",
+      "type": "Epic",
+      "summary": "Year-Round Activity Calendars",
+      "description": "Enable users to browse specialised year-round calendars, open daily doors, and read activity instructions.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "calendars",
+        "content",
+        "release-core"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "implemented",
+        "module": "Calendars, doors, timeline",
+        "evidence": "Calendar and schedule integration tests",
+        "notes": "24 doors per calendar with server-enforced chronological unlocking."
+      }
+    },
+    {
+      "key": "SACA-3",
+      "type": "Epic",
+      "summary": "Main Randomizer Calendar",
+      "description": "Provide the free-tier random activity draw with server-enforced cooldowns and anti-farming restrictions.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "randomizer",
+        "free-tier",
+        "gamification"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "implemented",
+        "module": "Randomizer",
+        "evidence": "Epic 3 integration tests",
+        "notes": "Cooldown and filters are enforced by the API."
+      }
+    },
+    {
+      "key": "SACA-4",
+      "type": "Epic",
+      "summary": "Points & Gamification Ledger",
+      "description": "Award points for eligible activity completions through a reliable ledger that prevents duplicate rewards.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "points",
+        "ledger",
+        "gamification"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "implemented",
+        "module": "Points ledger",
+        "evidence": "Epic 4 integration tests + ledger integrity test",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-5",
+      "type": "Epic",
+      "summary": "Rewards Shop & Partner Offers",
+      "description": "Allow users to browse partner offers and redeem rewards using safe point checks, atomic deductions, and promo-code issuance.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "shop",
+        "rewards",
+        "redemption"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "implemented",
+        "module": "Rewards shop",
+        "evidence": "Epic 5 integration tests",
+        "notes": "Demo rewards and demo promo codes; no real partner integration."
+      }
+    },
+    {
+      "key": "SACA-6",
+      "type": "Epic",
+      "summary": "Social Participation",
+      "description": "Support discovering, creating, and joining group activity sessions.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "social",
+        "group-sessions"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "implemented",
+        "module": "Group sessions",
+        "evidence": "Epic 6 integration tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-7",
+      "type": "Epic",
+      "summary": "Subscription & Tier Access Control",
+      "description": "Enforce Free and Premium entitlements across calendars and rewards, including a functional Demo Tier Switcher.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "subscription",
+        "entitlements",
+        "demo-switcher"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "implemented",
+        "module": "Subscription & entitlements",
+        "evidence": "Epic 7 integration tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-8",
+      "type": "Epic",
+      "summary": "QA, Presentation & Handover",
+      "description": "Validate the end-to-end product and its motivation hypothesis, then complete the presentation and formal handover by the deadline.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "qa",
+        "presentation",
+        "handover",
+        "deadline-2026-11-12"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": null,
+      "parent_source": null,
+      "implementation": {
+        "status": "partial",
+        "module": "Documentation, tests, hub",
+        "evidence": "npm test, documentation/",
+        "notes": "Software parts done. UAT, presentation and sign-off are team activities."
+      }
+    },
+    {
+      "key": "SACA-9",
+      "type": "Story",
+      "summary": "Register and log in securely",
+      "description": "As a visitor, I want to create an account and log in with valid credentials, so that I can access and retain my own platform experience.",
+      "acceptance_criteria": [
+        "Registration validates required fields and rejects an already registered email",
+        "Passwords are stored using a secure one-way hash and login returns an authenticated session or token",
+        "Invalid credentials and malformed inputs return clear errors without exposing sensitive information"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "account rules and acceptance"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "accounts",
+        "authentication",
+        "frontend",
+        "backend"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-04",
+      "estimate_hours": null,
+      "parent": "SACA-1",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/auth.js, frontend/pages/auth.js",
+        "evidence": "Epic 1 tests: registration, invalid input, lockout, logout",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-10",
+      "type": "Story",
+      "summary": "View profile, points balance, and activity history",
+      "description": "As a signed-in user, I want to view my profile, current points balance, and completed activity history, so that I can understand my progress and earned rewards.",
+      "acceptance_criteria": [
+        "Profile details and the current ledger-derived points balance are displayed for the signed-in account",
+        "Activity history lists completed activities with dates and points earned",
+        "A user cannot view or modify another user's profile or history"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "profile and history rules"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "accounts",
+        "profiles",
+        "history",
+        "frontend",
+        "backend"
+      ],
+      "start_date": "2026-11-03",
+      "due_date": "2026-11-05",
+      "estimate_hours": null,
+      "parent": "SACA-1",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/profile.js, frontend/pages/dashboard.js, points.js",
+        "evidence": "Epic 1 test: profile shows only the caller data",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-11",
+      "type": "Story",
+      "summary": "Browse specialised calendars and open daily doors",
+      "description": "As a calendar user, I want to browse Football, Fitness, and Mindfulness or Self-Help calendars and open available daily doors, so that I can find structured activities and understand how to complete them.",
+      "acceptance_criteria": [
+        "The calendar catalogue displays the seeded calendar categories and indicates Free or Premium access",
+        "A user can open an available day and see its activity title, instructions, and completion guidance",
+        "Unavailable or locked days show a clear state and cannot be opened through a direct URL or API bypass"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "calendar rules and content"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "calendars",
+        "daily-doors",
+        "activity-instructions"
+      ],
+      "start_date": "2026-11-03",
+      "due_date": "2026-11-06",
+      "estimate_hours": null,
+      "parent": "SACA-2",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/catalog.js, frontend/pages/calendars.js",
+        "evidence": "Epic 2 tests + schedule tests (future door rejected by API)",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-12",
+      "type": "Story",
+      "summary": "Draw a free-tier random activity",
+      "description": "As a Free-tier user, I want to draw a random activity from the main calendar subject to a cooldown, so that I can discover a new activity without farming repeated draws.",
+      "acceptance_criteria": [
+        "A draw selects an eligible activity from the configured free activity pool",
+        "The server enforces the configured cooldown and returns the next eligible draw time",
+        "Repeated requests during cooldown do not reveal another activity or bypass the restriction by refreshing or calling the API directly"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "pool and cooldown rules"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "randomizer",
+        "cooldown",
+        "free-tier"
+      ],
+      "start_date": "2026-11-04",
+      "due_date": "2026-11-06",
+      "estimate_hours": null,
+      "parent": "SACA-3",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/randomizer.js, frontend/pages/randomizer.js",
+        "evidence": "Epic 3 tests (cooldown, parallel draws, pool, filters)",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-13",
+      "type": "Story",
+      "summary": "Complete activities and earn points once",
+      "description": "As a signed-in user, I want to mark an eligible activity complete and receive points in my ledger, so that I can track progress and earn rewards fairly.",
+      "acceptance_criteria": [
+        "A valid completion creates a ledger entry and awards the configured points exactly once",
+        "Repeated completion submissions for the same user and activity do not create additional points",
+        "The updated balance and completion record are reflected in the profile and activity history"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "points and eligibility rules"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "points",
+        "activity-completion",
+        "idempotency",
+        "ledger"
+      ],
+      "start_date": "2026-11-04",
+      "due_date": "2026-11-07",
+      "estimate_hours": null,
+      "parent": "SACA-4",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/catalog.js (completeActivity), points.js",
+        "evidence": "Epic 4 tests (exactly-once, parallel duplicates)",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-14",
+      "type": "Story",
+      "summary": "Browse and redeem partner rewards",
+      "description": "As a signed-in user, I want to browse partner offers and redeem a reward when I have enough points, so that I can exchange earned points for a usable partner offer.",
+      "acceptance_criteria": [
+        "Each reward shows its description, point cost, availability, and relevant terms",
+        "Insufficient balances are rejected without deducting points or issuing a code",
+        "A successful redemption atomically deducts points and issues one valid promo code; concurrent duplicate requests cannot spend the same points twice"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "offer, price, and redemption rules"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "rewards",
+        "shop",
+        "atomic-redemption",
+        "promo-codes"
+      ],
+      "start_date": "2026-11-05",
+      "due_date": "2026-11-09",
+      "estimate_hours": null,
+      "parent": "SACA-5",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/rewards.js, frontend/pages/rewards.js",
+        "evidence": "Epic 5 tests (atomic, concurrent, out-of-stock)",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-15",
+      "type": "Story",
+      "summary": "Discover, create, and join group activity sessions",
+      "description": "As a signed-in user, I want to discover group sessions and create or join a session, so that I can participate in activities with other users.",
+      "acceptance_criteria": [
+        "The session list displays available sessions with activity, host, date or time, and capacity where configured",
+        "A signed-in user can create a session with required details and valid capacity",
+        "Joining a session updates membership once and prevents duplicate joins or joining a full or closed session"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "session rules and UAT"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "social",
+        "group-sessions",
+        "participation"
+      ],
+      "start_date": "2026-11-05",
+      "due_date": "2026-11-09",
+      "estimate_hours": null,
+      "parent": "SACA-6",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/sessions.js, frontend/pages/sessions.js",
+        "evidence": "Epic 6 tests (capacity, duplicate joins, free-text activity)",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-16",
+      "type": "Story",
+      "summary": "Enforce Free and Premium access with a Demo Tier Switcher",
+      "description": "As a demo user, I want to switch between Free and Premium demo tiers and see the corresponding access, so that I can verify subscription rules without a live payment integration.",
+      "acceptance_criteria": [
+        "The Demo Tier Switcher changes the active demo tier and the UI visibly reflects the selected tier",
+        "Free users are restricted from configured Premium calendars and reward features while permitted Free features remain usable",
+        "Backend authorization enforces the same tier rules as the UI and rejects direct unauthorized requests"
+      ],
+      "contributors": [
+        {
+          "name": "Nizar",
+          "role": "implementation"
+        },
+        {
+          "name": "Youssef",
+          "role": "entitlement matrix"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "subscription",
+        "tiers",
+        "authorization",
+        "demo-switcher"
+      ],
+      "start_date": "2026-11-06",
+      "due_date": "2026-11-09",
+      "estimate_hours": null,
+      "parent": "SACA-7",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/subscription.js, entitlements.js, frontend/pages/subscription.js",
+        "evidence": "Epic 7 tests (switcher + backend enforcement)",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-17",
+      "type": "Story",
+      "summary": "Validate release quality and the Advent Calendar experience",
+      "description": "As a product owner, I want to validate the key user journeys, edge cases, and the motivational experience, so that the team can make an evidence-based release decision and explain the product's value.",
+      "acceptance_criteria": [
+        "UAT covers registration, calendar discovery, daily-door activity, random draw, completion, points, rewards, and social participation",
+        "Duplicate completion, insufficient points, concurrent redemption, and unauthorized API scenarios have recorded expected results and outcomes",
+        "A small structured comparison captures user feedback on the Advent Calendar format versus a standard self-help activity list, with limitations clearly stated"
+      ],
+      "contributors": [
+        {
+          "name": "Youssef",
+          "role": "UAT and product validation"
+        },
+        {
+          "name": "Nizar",
+          "role": "technical fixes and security evidence"
+        },
+        {
+          "name": "Dhrruv",
+          "role": "release coordination"
+        }
+      ],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "uat",
+        "qa",
+        "motivation-validation",
+        "release"
+      ],
+      "start_date": "2026-11-09",
+      "due_date": "2026-11-12",
+      "estimate_hours": null,
+      "parent": "SACA-8",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "partial",
+        "module": "tests/, documentation/UAT_CHECKLIST.md",
+        "evidence": "Automated API tests",
+        "notes": "Automated checks exist. The human UAT run and motivation study are not done."
+      }
+    },
+    {
+      "key": "SACA-18",
+      "type": "Task",
+      "summary": "Implement registration and login backend",
+      "description": "Build the account data model and registration/login endpoints; hash passwords; validate input; issue and verify authenticated sessions or tokens; return safe error responses.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "backend",
+        "database",
+        "api",
+        "authentication"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-03",
+      "estimate_hours": 6,
+      "parent": "SACA-9",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "POST /api/register, /api/login, /api/logout",
+        "evidence": "Epic 1 tests",
+        "notes": "bcrypt hashing, JWT with revocation, rate limiting and account lockout."
+      }
+    },
+    {
+      "key": "SACA-19",
+      "type": "Task",
+      "summary": "Build registration and login frontend",
+      "description": "Implement registration and login screens, field validation, loading and error states, and authenticated navigation using the agreed API contract.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "frontend",
+        "authentication"
+      ],
+      "start_date": "2026-11-03",
+      "due_date": "2026-11-04",
+      "estimate_hours": 4,
+      "parent": "SACA-9",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "frontend/pages/auth.js",
+        "evidence": "Browser walkthrough",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-20",
+      "type": "Task",
+      "summary": "Implement profile and activity-history API",
+      "description": "Create authenticated endpoints for the current user's profile, ledger-derived points balance, and paginated or bounded activity history; enforce account ownership.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "backend",
+        "database",
+        "api",
+        "profiles"
+      ],
+      "start_date": "2026-11-03",
+      "due_date": "2026-11-04",
+      "estimate_hours": 3,
+      "parent": "SACA-10",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "GET /api/profile, /api/profile/history, /api/profile/points",
+        "evidence": "Epic 1 tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-21",
+      "type": "Task",
+      "summary": "Build profile dashboard UI",
+      "description": "Display profile information, current points, and recent completed activities; include loading, empty, and error states.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "frontend",
+        "profiles",
+        "history"
+      ],
+      "start_date": "2026-11-04",
+      "due_date": "2026-11-05",
+      "estimate_hours": 2,
+      "parent": "SACA-10",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "frontend/pages/dashboard.js, points.js",
+        "evidence": "Browser walkthrough",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-22",
+      "type": "Task",
+      "summary": "Implement calendar data model and APIs",
+      "description": "Create or adapt calendar, day, and activity data structures and endpoints for calendar catalogue, calendar detail, daily-door availability, and activity instructions.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "backend",
+        "database",
+        "api",
+        "calendars"
+      ],
+      "start_date": "2026-11-03",
+      "due_date": "2026-11-04",
+      "estimate_hours": 4,
+      "parent": "SACA-11",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "calendars, activities, user_calendars, activity_opens tables; GET /api/calendars*",
+        "evidence": "Epic 2 + schedule tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-23",
+      "type": "Task",
+      "summary": "Build calendar browsing and daily-door UI",
+      "description": "Implement specialised calendar catalogue, Free or Premium indicators, daily-door states, and activity instruction view with clear locked and unavailable states.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "frontend",
+        "calendars",
+        "daily-doors"
+      ],
+      "start_date": "2026-11-04",
+      "due_date": "2026-11-06",
+      "estimate_hours": 4,
+      "parent": "SACA-11",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "frontend/pages/calendars.js (24-door grid)",
+        "evidence": "Browser walkthrough",
+        "notes": "Door-opening animation, scheduled / available / opened / completed states."
+      }
+    },
+    {
+      "key": "SACA-24",
+      "type": "Task",
+      "summary": "Implement random draw API and cooldown enforcement",
+      "description": "Build the server-side eligible-activity draw and persist or derive the cooldown so repeated requests, refreshes, and direct API calls cannot bypass it.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "backend",
+        "api",
+        "randomizer",
+        "cooldown"
+      ],
+      "start_date": "2026-11-04",
+      "due_date": "2026-11-05",
+      "estimate_hours": 3,
+      "parent": "SACA-12",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "POST /api/randomizer/draw",
+        "evidence": "Epic 3 tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-25",
+      "type": "Task",
+      "summary": "Build main randomizer UI",
+      "description": "Implement the free-tier random draw interaction, activity result, cooldown countdown or next-available state, and clear restriction messaging.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "frontend",
+        "randomizer",
+        "cooldown"
+      ],
+      "start_date": "2026-11-05",
+      "due_date": "2026-11-06",
+      "estimate_hours": 3,
+      "parent": "SACA-12",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "frontend/pages/randomizer.js",
+        "evidence": "Browser walkthrough",
+        "notes": "Filters by calendar category and maximum duration."
+      }
+    },
+    {
+      "key": "SACA-26",
+      "type": "Task",
+      "summary": "Implement transactional points ledger and duplicate prevention",
+      "description": "Create the points ledger and completion transaction so eligible activity points are awarded once; enforce a unique completion or idempotency constraint and keep the balance consistent.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "backend",
+        "database",
+        "transactions",
+        "ledger",
+        "idempotency"
+      ],
+      "start_date": "2026-11-04",
+      "due_date": "2026-11-06",
+      "estimate_hours": 5,
+      "parent": "SACA-13",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/points.js, points_ledger table",
+        "evidence": "Epic 4 tests + ledger integrity test",
+        "notes": "Unique idempotency key and row-locked balance changes."
+      }
+    },
+    {
+      "key": "SACA-27",
+      "type": "Task",
+      "summary": "Integrate activity completion UI with points history",
+      "description": "Connect the completion action to the API and show success, duplicate-completion, and updated-points states without optimistic double-awards.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "frontend",
+        "api-integration",
+        "activity-completion"
+      ],
+      "start_date": "2026-11-06",
+      "due_date": "2026-11-07",
+      "estimate_hours": 2,
+      "parent": "SACA-13",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "frontend/components/activityModal.js, pages/points.js",
+        "evidence": "Browser walkthrough",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-28",
+      "type": "Task",
+      "summary": "Implement rewards catalogue API",
+      "description": "Create reward and partner-offer data structures and endpoints exposing active offers, point cost, terms, and availability without exposing private promo codes prematurely.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "backend",
+        "database",
+        "api",
+        "rewards"
+      ],
+      "start_date": "2026-11-05",
+      "due_date": "2026-11-06",
+      "estimate_hours": 4,
+      "parent": "SACA-14",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "GET /api/rewards*",
+        "evidence": "Epic 5 tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-29",
+      "type": "Task",
+      "summary": "Implement atomic reward redemption and promo issuance",
+      "description": "Validate the current balance and reward stock inside a transaction; deduct points and reserve or issue one promo code atomically; make repeated or concurrent requests safe.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "backend",
+        "database",
+        "transactions",
+        "concurrency",
+        "promo-codes"
+      ],
+      "start_date": "2026-11-06",
+      "due_date": "2026-11-08",
+      "estimate_hours": 4,
+      "parent": "SACA-14",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "POST /api/rewards/:id/redeem",
+        "evidence": "Epic 5 concurrency tests",
+        "notes": "FOR UPDATE SKIP LOCKED reserves a unique promo code."
+      }
+    },
+    {
+      "key": "SACA-30",
+      "type": "Task",
+      "summary": "Build rewards shop and redemption UI",
+      "description": "Implement offer cards, point-sufficiency feedback, redemption confirmation, insufficient-points messaging, and display of the issued promo code after success.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "frontend",
+        "rewards",
+        "shop"
+      ],
+      "start_date": "2026-11-07",
+      "due_date": "2026-11-09",
+      "estimate_hours": 3,
+      "parent": "SACA-14",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "frontend/pages/rewards.js",
+        "evidence": "Browser walkthrough",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-31",
+      "type": "Task",
+      "summary": "Implement group session data model and API",
+      "description": "Create session and membership data structures plus authenticated endpoints to discover, create, and join sessions; validate capacity, status, and duplicate membership.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "backend",
+        "database",
+        "api",
+        "social"
+      ],
+      "start_date": "2026-11-05",
+      "due_date": "2026-11-07",
+      "estimate_hours": 3,
+      "parent": "SACA-15",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "group_sessions tables; /api/sessions*",
+        "evidence": "Epic 6 tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-32",
+      "type": "Task",
+      "summary": "Build group session discovery and participation UI",
+      "description": "Implement session discovery, create-session form, session details, and join flow with full, closed, and already-joined states.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Medium",
+      "labels": [
+        "frontend",
+        "social",
+        "group-sessions"
+      ],
+      "start_date": "2026-11-07",
+      "due_date": "2026-11-09",
+      "estimate_hours": 3,
+      "parent": "SACA-15",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "frontend/pages/sessions.js",
+        "evidence": "Browser walkthrough",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-33",
+      "type": "Task",
+      "summary": "Implement tier entitlement checks in backend",
+      "description": "Implement a central Free/Premium entitlement rule and enforce it on calendar and reward APIs; ensure UI-only tier changes cannot bypass server-side access control.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "backend",
+        "api",
+        "security",
+        "authorization",
+        "tiers"
+      ],
+      "start_date": "2026-11-06",
+      "due_date": "2026-11-08",
+      "estimate_hours": 4,
+      "parent": "SACA-16",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/entitlements.js and every service",
+        "evidence": "Epic 7 + Epic 2 tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-34",
+      "type": "Task",
+      "summary": "Build functional Demo Tier Switcher",
+      "description": "Add a demo-only tier switcher and connect it to visible access states for calendars and rewards; make clear that it simulates subscription status and does not process payments.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "frontend",
+        "demo-switcher",
+        "subscription"
+      ],
+      "start_date": "2026-11-08",
+      "due_date": "2026-11-09",
+      "estimate_hours": 2,
+      "parent": "SACA-16",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "POST /api/demo/tier, frontend/pages/subscription.js",
+        "evidence": "Epic 7 tests",
+        "notes": "Only works with DEMO_MODE=true on demo accounts."
+      }
+    },
+    {
+      "key": "SACA-35",
+      "type": "Task",
+      "summary": "Run technical security and API smoke tests",
+      "description": "Test missing or invalid authentication, cross-user data access, locked Premium endpoints, malformed inputs, duplicate completion requests, insufficient-point redemption, and concurrent redemption; fix release-blocking defects.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "qa",
+        "security",
+        "api-tests",
+        "regression"
+      ],
+      "start_date": "2026-11-09",
+      "due_date": "2026-11-11",
+      "estimate_hours": 4,
+      "parent": "SACA-17",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "tests/integration/platform.test.js",
+        "evidence": "npm test",
+        "notes": "API, security, concurrency and regression tests against PostgreSQL."
+      }
+    },
+    {
+      "key": "SACA-36",
+      "type": "Task",
+      "summary": "Prepare technical documentation and deployment runbook",
+      "description": "Document architecture and key API contracts, environment configuration, database setup or migrations, seed procedure, local run instructions, demo credentials handling, known limitations, and deployment or rollback steps.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "documentation",
+        "technical-handover",
+        "devops"
+      ],
+      "start_date": "2026-11-10",
+      "due_date": "2026-11-12",
+      "estimate_hours": 2,
+      "parent": "SACA-8",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "README.md, documentation/*",
+        "evidence": "Document review",
+        "notes": "Includes the Vercel and Supabase runbook."
+      }
+    },
+    {
+      "key": "SACA-37",
+      "type": "Task",
+      "summary": "Define product rules and entitlement matrix",
+      "description": "Agree and record points per completion, eligible completion conditions, randomizer cooldown, Free versus Premium calendar and reward access, session capacity rules, reward point costs, and redemption limits; turn decisions into testable examples.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "product-rules",
+        "acceptance-criteria",
+        "tiers"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-03",
+      "estimate_hours": 3,
+      "parent": "SACA-7",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "backend/services/entitlements.js, Subscription page",
+        "evidence": "Unit and Epic 7 tests",
+        "notes": "The Excel entitlement matrix was not available. Rules follow the Jira acceptance criteria."
+      }
+    },
+    {
+      "key": "SACA-38",
+      "type": "Task",
+      "summary": "Prepare and seed specialised calendar content",
+      "description": "Prepare and enter demo-ready Football, Fitness, and Mindfulness or Self-Help calendars with day titles, concise instructions, tier designation, and enough activities to demonstrate browsing and daily doors end to end.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "content-seeding",
+        "calendars"
+      ],
+      "start_date": "2026-11-03",
+      "due_date": "2026-11-06",
+      "estimate_hours": 4,
+      "parent": "SACA-11",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "database/seeders/* (Football, Fitness, Mindfulness)",
+        "evidence": "Seed run + tests",
+        "notes": ""
+      }
+    },
+    {
+      "key": "SACA-39",
+      "type": "Task",
+      "summary": "Seed partner offers and demo promo codes",
+      "description": "Prepare realistic demo partner rewards, point prices, terms, availability, and a controlled promo-code pool; verify that the seeded data supports successful and insufficient-points redemption demos.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "content-seeding",
+        "rewards",
+        "partner-offers"
+      ],
+      "start_date": "2026-11-05",
+      "due_date": "2026-11-07",
+      "estimate_hours": 3,
+      "parent": "SACA-14",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "implemented",
+        "module": "database/seeders/seed.js (REWARDS)",
+        "evidence": "Epic 5 tests",
+        "notes": "Clearly labelled demo partners and demo codes."
+      }
+    },
+    {
+      "key": "SACA-40",
+      "type": "Task",
+      "summary": "Prepare UAT checklist and test data",
+      "description": "Create concise end-to-end UAT steps, expected outcomes, test accounts for Free and Premium demo tiers, sample activity completions, reward balances, and group sessions.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "uat",
+        "test-data",
+        "qa"
+      ],
+      "start_date": "2026-11-07",
+      "due_date": "2026-11-08",
+      "estimate_hours": 2,
+      "parent": "SACA-17",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "partial",
+        "module": "documentation/UAT_CHECKLIST.md, seeded demo accounts",
+        "evidence": "Document review",
+        "notes": "Checklist and test data prepared. It has not been run by the team."
+      }
+    },
+    {
+      "key": "SACA-41",
+      "type": "Task",
+      "summary": "Execute UAT and record edge-case results",
+      "description": "Run the agreed user journeys and explicitly verify duplicate completion, insufficient points, concurrent redemption attempts, and unauthorized API access; log defects with severity, evidence, owner, and retest result.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "uat",
+        "edge-cases",
+        "qa"
+      ],
+      "start_date": "2026-11-09",
+      "due_date": "2026-11-11",
+      "estimate_hours": 4,
+      "parent": "SACA-17",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "outstanding",
+        "module": "documentation/UAT_CHECKLIST.md",
+        "evidence": "",
+        "notes": "Needs the team to execute UAT and record outcomes."
+      }
+    },
+    {
+      "key": "SACA-42",
+      "type": "Task",
+      "summary": "Validate Advent Calendar motivation hypothesis",
+      "description": "Run a small structured feedback comparison using the Advent Calendar experience and a standard self-help activity-list baseline; capture perceived motivation, likelihood to return, and qualitative comments, and state the small-sample limitation in the presentation.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "High",
+      "labels": [
+        "product-validation",
+        "user-feedback",
+        "motivation"
+      ],
+      "start_date": "2026-11-09",
+      "due_date": "2026-11-11",
+      "estimate_hours": 3,
+      "parent": "SACA-17",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "outstanding",
+        "module": "",
+        "evidence": "",
+        "notes": "Needs real participants. No results exist and none are fabricated."
+      }
+    },
+    {
+      "key": "SACA-43",
+      "type": "Task",
+      "summary": "Complete Product Owner acceptance and sign-off",
+      "description": "Review acceptance criteria, UAT outcomes, known limitations, and release-blocking defects; record accepted scope and provide final Product Owner sign-off by the handover deadline.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "product-signoff",
+        "release"
+      ],
+      "start_date": "2026-11-12",
+      "due_date": "2026-11-12",
+      "estimate_hours": 1,
+      "parent": "SACA-17",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "process",
+        "module": "",
+        "evidence": "",
+        "notes": "Product Owner sign-off is a human decision."
+      }
+    },
+    {
+      "key": "SACA-44",
+      "type": "Task",
+      "summary": "Coordinate sprint plan, Jira board, and daily tracking",
+      "description": "Maintain the prioritized board, confirm owners and due dates, run short daily check-ins, track blockers and scope changes, and escalate any risk to the 12 November presentation and handover deadline.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "scrum-master",
+        "sprint-tracking",
+        "coordination"
+      ],
+      "start_date": "2026-11-02",
+      "due_date": "2026-11-12",
+      "estimate_hours": 4,
+      "parent": "SACA-8",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "process",
+        "module": "Project hub",
+        "evidence": "",
+        "notes": "Scrum coordination happens in Jira. The hub only displays the exported backlog."
+      }
+    },
+    {
+      "key": "SACA-45",
+      "type": "Task",
+      "summary": "Prepare final presentation and product narrative",
+      "description": "Create the presentation covering problem, target users, product concept, key journeys, architecture, gamification and tier rules, demo results, motivation comparison, limitations, and next steps.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "presentation",
+        "deadline-2026-11-12"
+      ],
+      "start_date": "2026-11-09",
+      "due_date": "2026-11-12",
+      "estimate_hours": 4,
+      "parent": "SACA-8",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "process",
+        "module": "",
+        "evidence": "",
+        "notes": "Presentation is outside the application."
+      }
+    },
+    {
+      "key": "SACA-46",
+      "type": "Task",
+      "summary": "Prepare end-to-end demo script and rehearsal",
+      "description": "Write a timed demo walkthrough covering registration, calendar door, randomizer cooldown, completion and points, reward redemption, social session, and Free/Premium tier switching; rehearse and prepare a fallback path.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "demo",
+        "rehearsal",
+        "presentation"
+      ],
+      "start_date": "2026-11-10",
+      "due_date": "2026-11-12",
+      "estimate_hours": 2,
+      "parent": "SACA-8",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "partial",
+        "module": "documentation/DEMO_SCRIPT.md",
+        "evidence": "Document review",
+        "notes": "Script drafted. Rehearsal is a team activity."
+      }
+    },
+    {
+      "key": "SACA-47",
+      "type": "Task",
+      "summary": "Assemble formal handover package",
+      "description": "Compile final backlog status, scope delivered, architecture overview, setup and run instructions, links to technical documentation, test evidence, known issues, access or ownership notes, and recommended next steps for the receiving team.",
+      "acceptance_criteria": [],
+      "contributors": [],
+      "assignee": null,
+      "priority": "Highest",
+      "labels": [
+        "handover",
+        "documentation",
+        "deadline-2026-11-12"
+      ],
+      "start_date": "2026-11-10",
+      "due_date": "2026-11-12",
+      "estimate_hours": 3,
+      "parent": "SACA-8",
+      "parent_source": "inferred",
+      "implementation": {
+        "status": "partial",
+        "module": "documentation/HANDOVER.md, README.md",
+        "evidence": "Document review",
+        "notes": "Technical handover exists. The formal package is assembled by the team."
+      }
+    }
+  ]
+}

@@ -19,8 +19,16 @@ so your development or Supabase data is never touched.
 | Subscription | switcher updates the backend, non-demo and non-demo-mode rejection, invalid tier |
 | Input handling | out-of-range ids and invalid text return 400 instead of 500 |
 | Integrity | every `points_balance` equals the sum of its ledger rows |
+| Chronological doors | future doors are listed as sealed, and open/read/complete are all refused with `DOOR_LOCKED`; nothing is written; the next day unlocks the next door; Premium lock wins over the date |
+| Door history and calendars | opening is recorded once and starts the calendar; join respects entitlements, unavailable and unknown calendars |
+| Randomizer filters | category and duration filters, invalid filters rejected, no-match draw does not start the cooldown, a draw grants on-demand access |
+| Timeline | opens, completions and points land on the right day; availability dates come from the schedule; other users see nothing; range validation; demo-data label |
+| Project hub | backlog counts (8 epics, 9 stories, 30 tasks), no invented assignees, inferred parents marked, authentication required |
 
 ## Manual acceptance checklist (UAT)
+
+The full 15-scenario checklist, with a blank result column for the team, is in [UAT_CHECKLIST.md](./UAT_CHECKLIST.md).
+A short smoke version:
 
 Record results and Product Owner feedback in Jira.
 

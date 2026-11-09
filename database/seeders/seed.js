@@ -8,10 +8,11 @@ const fitness = require('./data/fitness');
 
 const DEMO_PASSWORD = 'Demo1234!';
 const DAY = 24 * 60 * 60 * 1000;
+const DEMO_START_OFFSET = 11;
 
 const TABLES = [
   'revoked_tokens', 'group_session_members', 'group_sessions', 'redemptions', 'promo_codes', 'rewards',
-  'randomizer_draws', 'points_ledger', 'activity_completions', 'activities', 'calendars', 'users',
+  'randomizer_draws', 'activity_opens', 'user_calendars', 'points_ledger', 'activity_completions', 'activities', 'calendars', 'users',
 ];
 
 const USERS = [
@@ -24,12 +25,12 @@ const USERS = [
 ];
 
 const REWARDS = [
-  { partner: 'Bean & Leaf Cafe', title: 'Free Coffee', cost: 50, tier: 'free', description: 'One free regular coffee at any Bean & Leaf Cafe.', prefix: 'COFFEE', codes: 4 },
-  { partner: 'FitFuel Store', title: '10% Off Sports Nutrition', cost: 100, tier: 'free', description: '10% off your next order of protein and snacks.', prefix: 'FUEL10', codes: 4 },
-  { partner: 'Calm Corner Books', title: 'Free eBook', cost: 150, tier: 'free', description: 'Choose any mindfulness or wellbeing eBook for free.', prefix: 'BOOK', codes: 3 },
-  { partner: 'Kick-Off Sports', title: '15% Off Football Gear', cost: 250, tier: 'free', description: '15% off boots, balls and training kit.', prefix: 'KICK15', codes: 3 },
-  { partner: 'Zen Studio', title: 'Free Yoga Class', cost: 400, tier: 'premium', description: 'A free drop-in yoga class. Premium members only.', prefix: 'YOGA', codes: 3 },
-  { partner: 'ProStadium Tickets', title: 'Match Day Experience', cost: 1500, tier: 'premium', description: 'Two tickets and a stadium tour. Premium members only.', prefix: 'STADIUM', codes: 2 },
+  { partner: 'Bean & Leaf Cafe', title: 'Free Coffee', icon: 'ph-coffee', cost: 50, tier: 'free', description: 'One free regular coffee at any Bean & Leaf Cafe.', prefix: 'COFFEE', codes: 4 },
+  { partner: 'FitFuel Store', title: '10% Off Sports Nutrition', icon: 'ph-barbell', cost: 100, tier: 'free', description: '10% off your next order of protein and snacks.', prefix: 'FUEL10', codes: 4 },
+  { partner: 'Calm Corner Books', title: 'Free eBook', icon: 'ph-book-open-text', cost: 150, tier: 'free', description: 'Choose any mindfulness or wellbeing eBook for free.', prefix: 'BOOK', codes: 3 },
+  { partner: 'Kick-Off Sports', title: '15% Off Football Gear', icon: 'ph-soccer-ball', cost: 250, tier: 'free', description: '15% off boots, balls and training kit.', prefix: 'KICK15', codes: 3 },
+  { partner: 'Zen Studio', title: 'Free Yoga Class', icon: 'ph-flower-lotus', cost: 400, tier: 'premium', description: 'A free drop-in yoga class. Premium members only.', prefix: 'YOGA', codes: 3 },
+  { partner: 'ProStadium Tickets', title: 'Match Day Experience', icon: 'ph-ticket', cost: 1500, tier: 'premium', description: 'Two tickets and a stadium tour. Premium members only.', prefix: 'STADIUM', codes: 2 },
 ];
 
 function buildCalendars() {
@@ -70,7 +71,8 @@ async function insertLedger(db, userId, type, amount, balanceAfter, refType, ref
   );
 }
 
-async function seed() {
+// startOffsetDays: how many days ago the calendars opened (door N unlocks on day N).
+async function seed({ startOffsetDays = DEMO_START_OFFSET } = {}) {
   const db = await pool.connect();
   try {
     await db.query('BEGIN');
@@ -91,8 +93,8 @@ async function seed() {
     const keys = ['mindfulness', 'fitness', 'football', null];
     for (const [ci, c] of buildCalendars().entries()) {
       const { rows: [cal] } = await db.query(
-        'INSERT INTO calendars (title, category, description, icon, tier_required, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-        [c.title, c.category, c.description, c.icon, c.tier, c.status],
+        'INSERT INTO calendars (title, category, description, icon, tier_required, status, start_date) VALUES ($1, $2, $3, $4, $5, $6, CURRENT_DATE - $7::int) RETURNING id',
+        [c.title, c.category, c.description, c.icon, c.tier, c.status, startOffsetDays],
       );
       for (const a of c.activities) {
         const { rows: [act] } = await db.query(
@@ -110,6 +112,8 @@ async function seed() {
         const activityId = activityIds.mindfulness[i];
         const { rows: [act] } = await db.query('SELECT points FROM activities WHERE id = $1', [activityId]);
         await db.query('INSERT INTO activity_completions (user_id, activity_id, points_awarded) VALUES ($1, $2, $3)', [users[who], activityId, act.points]);
+        await db.query('INSERT INTO activity_opens (user_id, activity_id) VALUES ($1, $2)', [users[who], activityId]);
+        await db.query('INSERT INTO user_calendars (user_id, calendar_id) SELECT $1, calendar_id FROM activities WHERE id = $2 ON CONFLICT DO NOTHING', [users[who], activityId]);
         const { rows: [u] } = await db.query('UPDATE users SET points_balance = points_balance + $1 WHERE id = $2 RETURNING points_balance', [act.points, users[who]]);
         await insertLedger(db, users[who], 'earn', act.points, u.points_balance, 'activity', activityId, `activity:${users[who]}:${activityId}`);
       }
@@ -117,8 +121,8 @@ async function seed() {
 
     for (const r of REWARDS) {
       const { rows: [reward] } = await db.query(
-        'INSERT INTO rewards (partner_name, reward_title, description, points_cost, availability) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-        [r.partner, r.title, r.description, r.cost, r.tier],
+        'INSERT INTO rewards (partner_name, reward_title, description,         points_cost, availability, icon) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+                [r.partner, r.title, r.description, r.cost, r.tier, r.icon],
       );
       for (let i = 1; i <= r.codes; i += 1) {
         await db.query('INSERT INTO promo_codes (reward_id, promo_code) VALUES ($1, $2)', [reward.id, `${r.prefix}-${reward.id * 1000 + i}`]);
@@ -148,7 +152,7 @@ async function seed() {
     db.release();
   }
 }
-module.exports = { seed, DEMO_PASSWORD, USERS, REWARDS, buildCalendars };
+module.exports = { seed, DEMO_PASSWORD, DEMO_START_OFFSET, USERS, REWARDS, buildCalendars };
 
 if (require.main === module) {
   seed()

@@ -8,6 +8,8 @@ import * as points from './pages/points.js';
 import * as rewards from './pages/rewards.js';
 import * as sessions from './pages/sessions.js';
 import * as subscription from './pages/subscription.js';
+import * as timeline from './pages/timeline.js';
+import * as project from './pages/project.js';
 
 const routes = [
   { path: /^\/login$/, page: auth, public: true, args: () => ['login'] },
@@ -19,6 +21,8 @@ const routes = [
   { path: /^\/points$/, page: points },
   { path: /^\/rewards$/, page: rewards },
   { path: /^\/sessions$/, page: sessions },
+  { path: /^\/timeline$/, page: timeline },
+  { path: /^\/project$/, page: project },
   { path: /^\/subscription$/, page: subscription },
 ];
 
@@ -29,7 +33,9 @@ const NAV = [
   ['#/points', 'Points', 'ph-star'],
   ['#/rewards', 'Rewards', 'ph-gift'],
   ['#/sessions', 'Group sessions', 'ph-users-three'],
+  ['#/timeline', 'Timeline', 'ph-clock-counter-clockwise'],
   ['#/subscription', 'Subscription', 'ph-crown-simple'],
+  ['#/project', 'Project hub', 'ph-kanban'],
 ];
 
 function renderHeader() {

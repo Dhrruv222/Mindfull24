@@ -11,7 +11,7 @@ const act = (cal, day) => `(SELECT a.id FROM activities a JOIN calendars c ON c.
 function schemaSql() {
   const dir = path.join(root, 'backend', 'migrations');
   const files = fs.readdirSync(dir).filter((f) => f.endsWith('.sql')).sort();
-  const drops = ['rate_limits', 'group_session_members', 'group_sessions', 'redemptions', 'promo_codes', 'rewards', 'randomizer_draws',
+  const drops = ['rate_limits', 'group_session_members', 'group_sessions', 'redemptions', 'promo_codes', 'rewards', 'randomizer_draws', 'activity_opens', 'user_calendars',
     'points_ledger', 'activity_completions', 'activities', 'calendars', 'revoked_tokens', 'users', 'schema_migrations'];
   return [
     '-- Advent Calendar (SACA) schema for Supabase. Paste into SQL Editor > New query > Run.',
@@ -31,7 +31,7 @@ function seedSql() {
     '-- Re-running this file first clears the app data.',
     'CREATE EXTENSION IF NOT EXISTS pgcrypto;',
     'BEGIN;',
-    'TRUNCATE TABLE rate_limits, revoked_tokens, group_session_members, group_sessions, redemptions, promo_codes, rewards, randomizer_draws, points_ledger, activity_completions, activities, calendars, users RESTART IDENTITY CASCADE;',
+    'TRUNCATE TABLE rate_limits, revoked_tokens, group_session_members, group_sessions, redemptions, promo_codes, rewards, randomizer_draws, activity_opens, user_calendars, points_ledger, activity_completions, activities, calendars, users RESTART IDENTITY CASCADE;',
     '',
   ];
   const balances = {};
@@ -43,7 +43,7 @@ function seedSql() {
   out.push('');
   const calendars = seed.buildCalendars();
   for (const c of calendars) {
-    out.push(`INSERT INTO calendars (title, category, description, icon, tier_required, status) VALUES (${[c.title, c.category, c.description, c.icon, c.tier, c.status].map(q).join(', ')});`);
+    out.push(`INSERT INTO calendars (title, category, description, icon, tier_required, status, start_date) VALUES (${[c.title, c.category, c.description, c.icon, c.tier, c.status].map(q).join(', ')}, CURRENT_DATE - ${seed.DEMO_START_OFFSET});`);
     for (const a of c.activities) {
       out.push(`INSERT INTO activities (calendar_id, title, description, instructions, day_number, points, duration, icon, tier_required, randomizer_eligible) VALUES ((SELECT id FROM calendars WHERE title = ${q(c.title)}), ${[a.title, a.description, a.instructions, a.day, a.points, a.duration, a.icon, a.tier, !!a.randomizer].map(q).join(', ')});`);
     }
@@ -57,12 +57,14 @@ function seedSql() {
       balances[email] += a.points;
       out.push(`INSERT INTO activity_completions (user_id, activity_id, points_awarded) VALUES (${uid(email)}, ${act(mind.title, a.day)}, ${a.points});`);
       out.push(`INSERT INTO points_ledger (user_id, transaction_type, amount, balance_after, reference_type, reference_id, idempotency_key) VALUES (${uid(email)}, 'earn', ${a.points}, ${balances[email]}, 'activity', ${act(mind.title, a.day)}, ${q(`activity:${email}:${a.day}`)});`);
+      out.push(`INSERT INTO activity_opens (user_id, activity_id) VALUES (${uid(email)}, ${act(mind.title, a.day)});`);
+      out.push(`INSERT INTO user_calendars (user_id, calendar_id) VALUES (${uid(email)}, (SELECT id FROM calendars WHERE title = ${q(mind.title)})) ON CONFLICT DO NOTHING;`);
       out.push(`UPDATE users SET points_balance = ${balances[email]} WHERE email = ${q(email)};`);
     }
   }
   out.push('');
   for (const r of seed.REWARDS) {
-    out.push(`INSERT INTO rewards (partner_name, reward_title, description, points_cost, availability) VALUES (${[r.partner, r.title, r.description, r.cost, r.tier].map(q).join(', ')});`);
+    out.push(`INSERT INTO rewards (partner_name, reward_title, description, points_cost, availability, icon) VALUES (${[r.partner, r.title, r.description, r.cost, r.tier, r.icon].map(q).join(', ')});`);
     for (let i = 1; i <= r.codes; i += 1) {
       out.push(`INSERT INTO promo_codes (reward_id, promo_code) VALUES ((SELECT id FROM rewards WHERE reward_title = ${q(r.title)}), ${q(`${r.prefix}-${i}${String(Math.abs(hash(r.title + i))).slice(0, 4)}`)});`);
     }
@@ -83,9 +85,21 @@ function seedSql() {
   return out.join('\n');
 }
 
+// For a database that already has schema 001-003: adds door scheduling, calendar membership and open history without dropping data.
+function updateSql() {
+  const file = '004_schedule_timeline.sql';
+  return [
+    '-- Update for an EXISTING Supabase database (keeps all data). Paste into SQL Editor > New query > Run once.',
+    fs.readFileSync(path.join(root, 'backend', 'migrations', file), 'utf8').trim(),
+    `INSERT INTO schema_migrations (name) VALUES (${q(file)}) ON CONFLICT DO NOTHING;`,
+    '',
+  ].join('\n');
+}
+
 function hash(s) { let h = 7; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) | 0; return h; }
 
 fs.mkdirSync(path.join(root, 'supabase'), { recursive: true });
 fs.writeFileSync(path.join(root, 'supabase', 'schema.sql'), schemaSql());
 fs.writeFileSync(path.join(root, 'supabase', 'seed.sql'), seedSql());
-console.log('Wrote supabase/schema.sql and supabase/seed.sql');
+fs.writeFileSync(path.join(root, 'supabase', 'update-004-schedule-timeline.sql'), updateSql());
+console.log('Wrote supabase/schema.sql, supabase/seed.sql and supabase/update-004-schedule-timeline.sql');

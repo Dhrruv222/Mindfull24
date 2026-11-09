@@ -4,7 +4,7 @@ const { canAccess, assertAccess } = require('./entitlements');
 const points = require('./points');
 
 const REWARD_SELECT = `
-  SELECT r.id, r.partner_name, r.reward_title, r.description, r.points_cost, r.availability,
+  SELECT r.id, r.icon, r.partner_name, r.reward_title, r.description, r.points_cost, r.availability,
          (SELECT COUNT(*) FROM promo_codes p WHERE p.reward_id = r.id AND p.status = 'available') AS codes_available
   FROM rewards r`;
 
@@ -20,6 +20,7 @@ function shape(reward, user) {
   const { eligible, reason } = evaluateEligibility(user, reward, user.points_balance);
   return {
     id: reward.id,
+    icon: reward.icon,
     partner_name: reward.partner_name,
     reward_title: reward.reward_title,
     description: reward.description,
@@ -90,7 +91,8 @@ async function redeem(user, rewardId, clientKey) {
     return {
       redemption_id: redemption.id,
       reward_title: reward.reward_title,
-      partner_name: reward.partner_name,
+      icon: reward.icon,
+    partner_name: reward.partner_name,
       promo_code: code.promo_code,
       points_spent: reward.points_cost,
       balance,

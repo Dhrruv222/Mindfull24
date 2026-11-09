@@ -25,17 +25,19 @@ Errors: `{ "error": { "code": "...", "message": "...", ...extra } }`.
 ## Calendars and activities
 | Method | Path | Notes |
 |---|---|---|
-| GET | /calendars | Catalogue with `tier_required`, `locked`, progress |
+| GET | /calendars | Catalogue with `tier_required`, `locked`, `start_date`, `unlocked_doors`, `completed_activities`, `opened_activities`, `joined`, `next_unlock_day/date` |
 | GET | /calendars/{id} | Calendar metadata (also for locked ones) |
-| GET | /calendars/{id}/activities | Doors; 403 `PREMIUM_REQUIRED` for locked calendars. Locked doors hide description/instructions |
-| GET | /activities/{id} | Full details incl. `instructions`; 403 when locked |
-| POST | /activities/{id}/complete | 201 `{points_awarded, balance}`; 409 `ALREADY_COMPLETED` |
+| POST | /calendars/{id}/join | Starts the calendar for the user (idempotent). 403 `PREMIUM_REQUIRED` / `CALENDAR_UNAVAILABLE` |
+| GET | /calendars/{id}/activities | 24 doors, each with `state` (`available`, `opened`, `completed`, `scheduled`, `premium_locked`) and `unlock_date`. Door N opens on `start_date + N - 1` (UTC). Scheduled doors hide title, description, instructions and points; Premium-locked doors hide description/instructions. 403 `PREMIUM_REQUIRED` for locked calendars |
+| GET | /activities/{id} | Full details incl. `instructions`; 403 `PREMIUM_REQUIRED` or 403 `DOOR_LOCKED` (with `unlock_date`) |
+| POST | /activities/{id}/open | Reveals the door and records when (once). Same errors as GET; also starts the calendar |
+| POST | /activities/{id}/complete | 201 `{points_awarded, balance}`; 409 `ALREADY_COMPLETED`; 403 `DOOR_LOCKED` before the door's date |
 
 ## Randomizer
 | Method | Path | Notes |
 |---|---|---|
-| GET | /randomizer/status | `can_draw`, `next_available_at`, `retry_after_seconds`, `pool_size` |
-| POST | /randomizer/draw | 201 `{draw, activity}`; 429 `RANDOMIZER_COOLDOWN` with `next_available_at` |
+| GET | /randomizer/status | `can_draw`, `next_available_at`, `retry_after_seconds`, `pool_size`, `filters` (available `categories` and `max_minutes`) |
+| POST | /randomizer/draw | Optional body `{category?, max_minutes?}`. 201 `{draw, activity}`; 429 `RANDOMIZER_COOLDOWN` with `next_available_at`; 404 `EMPTY_POOL` when no activity matches (no cooldown is started); 400 for invalid filters. A drawn activity can be opened and completed even before its door date |
 
 ## Points
 | Method | Path | Notes |
@@ -68,4 +70,10 @@ Errors: `{ "error": { "code": "...", "message": "...", ...extra } }`.
 | GET | /subscription/entitlements | Feature list for the current tier |
 | POST | /demo/tier | `{tier: "free"\|"premium"}`; 403 `DEMO_ONLY` outside demo mode or for non-demo accounts |
 
-`GET /health` returns `{status:"ok"}`.
+## Timeline and project hub
+| Method | Path | Notes |
+|---|---|---|
+| GET | /timeline?from=YYYY-MM-DD&to=YYYY-MM-DD | Own dated events (`door_available`, `door_opened`, `activity_completed`, `points_earned`/`points_spent`, `reward_redeemed`, `randomizer_draw`, `session_joined`) with `status` (`completed`, `pending`, `available`, `locked`). Defaults to the current month; max range 100 days; `demo_data` is true for the seeded demo accounts |
+| GET | /project/backlog | Static import of the Jira export (epics, stories, tasks, acceptance criteria, contributors) with the implementation mapping. `live_sync` is always false |
+
+`GET /health` returns `{status:"ok"}`. GET /health/db runs a trivial query and returns only an error code if it fails (no connection details).

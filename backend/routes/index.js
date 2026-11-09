@@ -11,6 +11,8 @@ const profile = require('../services/profile');
 const points = require('../services/points');
 const catalog = require('../services/catalog');
 const randomizer = require('../services/randomizer');
+const timeline = require('../services/timeline');
+const project = require('../services/project');
 const rewards = require('../services/rewards');
 const sessions = require('../services/sessions');
 const subscription = require('../services/subscription');
@@ -48,17 +50,23 @@ router.get('/profile', authenticate, h(async (req, res) => res.json(await profil
 router.get('/profile/history', authenticate, h(async (req, res) => res.json(await profile.getHistory(req.user))));
 router.get('/profile/points', authenticate, h(async (req, res) => res.json(await profile.getPoints(req.user))));
 
+// --- Timeline and project hub
+router.get('/timeline', authenticate, h(async (req, res) => res.json(await timeline.getTimeline(req.user, req.query))));
+router.get('/project/backlog', authenticate, (_req, res) => res.json(project.getBacklog()));
+
 // --- Epic 2: calendars & activities
 router.get('/calendars', authenticate, h(async (req, res) => res.json(await catalog.listCalendars(req.user))));
 router.get('/calendars/:id', authenticate, h(async (req, res) => res.json(await catalog.getCalendar(parseId(req.params.id), req.user))));
+router.post('/calendars/:id/join', authenticate, h(async (req, res) => res.json(await catalog.activateCalendar(req.user, parseId(req.params.id)))));
 router.get('/calendars/:id/activities', authenticate, h(async (req, res) => res.json(await catalog.listActivities(parseId(req.params.id), req.user))));
 router.get('/activities/:id', authenticate, h(async (req, res) => res.json(await catalog.getActivity(parseId(req.params.id), req.user))));
 
 // --- Epic 3: randomizer
 router.get('/randomizer/status', authenticate, h(async (req, res) => res.json(await randomizer.status(req.user))));
-router.post('/randomizer/draw', authenticate, h(async (req, res) => res.status(201).json(await randomizer.draw(req.user))));
+router.post('/randomizer/draw', authenticate, h(async (req, res) => res.status(201).json(await randomizer.draw(req.user, req.body || {}))));
 
 // --- Epic 4: points
+router.post('/activities/:id/open', authenticate, h(async (req, res) => res.json(await catalog.openActivity(req.user, parseId(req.params.id)))));
 router.post('/activities/:id/complete', authenticate, h(async (req, res) => res.status(201).json(await catalog.completeActivity(req.user, parseId(req.params.id)))));
 router.get('/points/balance', authenticate, h(async (req, res) => res.json(await points.getBalance(req.user.id))));
 router.get('/points/history', authenticate, h(async (req, res) => {

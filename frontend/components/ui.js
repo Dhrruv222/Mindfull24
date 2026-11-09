@@ -38,3 +38,14 @@ export const lockedNotice = () => `
     <i class="ph-fill ph-lock-key text-xl"></i>
     <span>This content is for Premium members. Open <a class="underline font-medium" href="#/subscription">Subscription</a> to switch tiers in the demo.</span>
   </div>`;
+
+// Each calendar category gets its own colour identity.
+const THEMES = {
+  Fitness: { tile: 'bg-orange-100 text-orange-700', door: 'bg-orange-50 border-orange-200 text-orange-800', bar: 'bg-orange-500', head: 'from-orange-50 to-white border-orange-100' },
+  Football: { tile: 'bg-sky-100 text-sky-700', door: 'bg-sky-50 border-sky-200 text-sky-800', bar: 'bg-sky-500', head: 'from-sky-50 to-white border-sky-100' },
+  Nutrition: { tile: 'bg-lime-100 text-lime-700', door: 'bg-lime-50 border-lime-200 text-lime-800', bar: 'bg-lime-500', head: 'from-lime-50 to-white border-lime-100' },
+};
+const SAGE = { tile: 'bg-sage-100 text-sage-700', door: 'bg-sage-50 border-sage-200 text-sage-800', bar: 'bg-sage-500', head: 'from-sage-50 to-white border-sage-100' };
+export const calendarTheme = (category) => THEMES[category] || SAGE;
+
+export const dateOnly = (iso) => new Date(`${iso}T00:00:00`).toLocaleDateString([], { dateStyle: 'medium' });

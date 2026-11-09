@@ -22,6 +22,10 @@
 | Randomizer cooldown | last draw checked under the user row lock, so refreshes, direct API calls and parallel requests cannot bypass it |
 | Session capacity | session row locked during join; `UNIQUE (session_id, user_id)` prevents duplicates; status derived from members/date |
 | Tier access | single function `canAccess` in `services/entitlements.js`, applied to calendars, activities, randomizer pool, rewards and sessions |
+| Chronological doors | `calendars.start_date`; door N opens on `start_date + N - 1` (UTC). The comparison runs in SQL (`services/catalog.js`), so open, read and complete all fail with 403 `DOOR_LOCKED` before the date. A randomizer draw grants on-demand access to that one activity |
+| Door history | `activity_opens` (first time a user opened a door) and `activity_completions` hold the real timestamps; `user_calendars` records which calendars the user started |
+| Timeline | `services/timeline.js` reads only stored rows (opens, completions, ledger, redemptions, draws, session joins). Door-availability dates are derived from the stored schedule, never invented |
+| Project hub | `backend/data/backlog.json` is generated from the Jira CSV by `npm run backlog:import`. It contains no status, sprint or assignee data because the export has none |
 | Demo switcher | `POST /api/demo/tier` updates `users.subscription_tier`; allowed only when `DEMO_MODE=true` **and** the account has `is_demo = 1` |
 
 Premium doors keep their instructions hidden: locked activities return only title, points and the lock flag.
@@ -29,14 +33,16 @@ Premium doors keep their instructions hidden: locked activities return only titl
 ## Tables
 
 `users`, `revoked_tokens`, `calendars`, `activities`, `activity_completions`, `points_ledger`, `randomizer_draws`,
-`rewards`, `promo_codes`, `redemptions`, `group_sessions`, `group_session_members` (plus `schema_migrations`).
+`rewards`, `promo_codes`, `redemptions`, `group_sessions`, `group_session_members`, `user_calendars`, `activity_opens` (plus `schema_migrations`).
 
 Additions beyond the suggested fields:
 - `users.points_balance`, `users.is_demo` (synchronised balance, demo-switcher authorisation)
 - `activities.duration/icon/randomizer_eligible` (UI data and the Free randomizer pool)
 - `points_ledger.balance_after`
 - `rewards.availability` is the tier allowed to redeem (`free`/`premium`); `rewards.status` is `active`/`inactive`
-- `calendars.status`: `active`, `coming_soon`, `inactive`
+- `calendars.status`: `active`, `coming_soon`, `inactive`; `calendars.start_date` drives the door schedule
+- `group_sessions.activity_name`: free-text activity (`activity_id` is optional)
+- `rewards.icon`: illustration for the shop card
 
 ## Tier model
 

@@ -6,7 +6,7 @@ const { Client } = require('pg');
 const config = require('../config');
 
 const APP_TABLES = [
-  'rate_limits', 'group_session_members', 'group_sessions', 'redemptions', 'promo_codes', 'rewards', 'randomizer_draws',
+  'rate_limits', 'group_session_members', 'group_sessions', 'redemptions', 'promo_codes', 'rewards', 'randomizer_draws', 'activity_opens', 'user_calendars',
   'points_ledger', 'activity_completions', 'activities', 'calendars', 'revoked_tokens', 'users', 'schema_migrations',
 ];
 

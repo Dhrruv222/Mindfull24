@@ -18,7 +18,7 @@ let baseUrl;
 
 async function start() {
   await migrate({ fresh: true });
-  await seed();
+  await seed({ startOffsetDays: 40 }); // every door open, so tests can use any activity
   await new Promise((resolve) => { server = createApp().listen(0, resolve); });
   baseUrl = `http://127.0.0.1:${server.address().port}`;
 }

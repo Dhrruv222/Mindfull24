@@ -114,7 +114,7 @@ test('Epic 2 & 7 - calendars and tier restrictions are enforced by the backend',
     assert.equal(res.status, 403);
     assert.equal(res.body.error.code, 'PREMIUM_REQUIRED');
     const doors = (await api('GET', `/api/calendars/${football.id}/activities`, { token: premium })).body;
-    assert.equal(doors.length, 12);
+    assert.equal(doors.length, 24); // every calendar is a 24-door calendar
     assert.equal((await api('GET', `/api/activities/${doors[0].id}`, { token: free })).status, 403);
     assert.equal((await api('POST', `/api/activities/${doors[0].id}/complete`, { token: free })).status, 403);
     assert.ok((await api('GET', `/api/activities/${doors[0].id}`, { token: premium })).body.instructions);

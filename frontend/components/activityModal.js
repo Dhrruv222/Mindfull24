@@ -1,18 +1,26 @@
 import { api } from '../services/api.js';
-import { esc, openModal, toast, tierBadge, lockedNotice } from './ui.js';
+import { esc, openModal, toast, tierBadge, lockedNotice, dateOnly } from './ui.js';
 import { loadUser } from '../services/store.js';
 
 // Opens the details of one activity. `onChange` runs after points were earned.
 export async function openActivity(id, onChange = () => {}) {
   let a;
   try {
-    a = await api.get(`/activities/${id}`);
+    a = await api.post(`/activities/${id}/open`);
   } catch (err) {
+    if (err.code === 'DOOR_LOCKED') {
+      openModal(`<div class="text-center py-2"><div class="w-16 h-16 mx-auto rounded-2xl bg-gray-100 text-gray-500 flex items-center justify-center text-3xl"><i class="ph-fill ph-lock-simple"></i></div>
+        <h3 class="font-display font-bold text-xl text-sage-900 mt-3">This door is still sealed</h3>
+        <p class="text-sm text-gray-600 mt-1">It opens on <b>${dateOnly(err.details.unlock_date)}</b>.</p>
+        <button data-close class="mt-5 px-4 py-2 rounded-lg border text-sm">Close</button></div>`);
+      return;
+    }
     openModal(`<h3 class="font-display font-bold text-lg mb-3">Locked door</h3>${lockedNotice()}
       <button data-close class="mt-4 text-sm px-4 py-2 rounded-lg border">Close</button>`);
     if (err.status !== 403) toast(err.message, 'error');
     return;
   }
+  onChange();
   openModal(`
     <div class="flex items-start justify-between gap-3 mb-4">
       <div class="flex items-center gap-3">
@@ -29,10 +37,10 @@ export async function openActivity(id, onChange = () => {}) {
       <span class="px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800"><i class="ph-fill ph-star"></i> ${a.points} points</span>
       ${tierBadge(a.tier_required)}
     </div>
-    <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1">Why it helps</h4>
-    <p class="text-sm text-gray-700 mb-4">${esc(a.description)}</p>
-    <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1">How to complete it</h4>
-    <p class="text-sm text-gray-800 bg-sage-50 border border-sage-100 rounded-xl p-4 mb-5">${esc(a.instructions)}</p>
+    <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1 reveal">Why it helps</h4>
+    <p class="text-sm text-gray-700 mb-4 reveal">${esc(a.description)}</p>
+    <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1 reveal reveal-2">How to complete it</h4>
+    <p class="text-sm text-gray-800 bg-sage-50 border border-sage-100 rounded-xl p-4 mb-5 reveal reveal-2">${esc(a.instructions)}</p>
     <button id="complete-btn" class="w-full py-2.5 rounded-xl font-medium text-white bg-sage-600 hover:bg-sage-700 disabled:bg-emerald-600 disabled:cursor-default">
       ${a.completed ? `<i class="ph-fill ph-check-circle"></i> Completed (+${a.points_awarded} points)` : `Mark as complete (+${a.points} points)`}
     </button>`, {

@@ -95,7 +95,7 @@ async function create(user, body) {
   }
 
   const id = await withTransaction(async (conn) => {
-    if (activityId) await catalog.getActivity(activityId, user, conn); // 404/403 if missing or locked for the host
+    if (activityId) await catalog.getActivity(activityId, user, conn, { skipSchedule: true }); // 404/403 if missing or locked for the host
     const { rows: [created] } = await conn.query(
       'INSERT INTO group_sessions (creator_id, activity_id, activity_name, title, description, session_date, capacity) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
       [user.id, activityId, activityName, title, description, date, capacity],
@@ -120,7 +120,7 @@ async function join(user, sessionId) {
     if (state === 'closed') throw new HttpError(409, 'SESSION_CLOSED', 'This session is closed');
     if (state === 'full') throw new HttpError(409, 'SESSION_FULL', 'This session is full');
 
-    if (session.activity_id) await catalog.getActivity(session.activity_id, user, conn);
+    if (session.activity_id) await catalog.getActivity(session.activity_id, user, conn, { skipSchedule: true });
     try {
       await conn.query('INSERT INTO group_session_members (session_id, user_id) VALUES ($1, $2)', [sessionId, user.id]);
     } catch (err) {

@@ -3,6 +3,8 @@
 Gamified activity advent-calendar platform. Users register, open daily doors in specialised calendars
 (Mindfulness/Self-Help, Fitness, Football), complete activities to earn points, use a randomizer with a server-enforced
 cooldown, redeem partner rewards for unique promo codes, join group sessions and try the Free/Premium tiers through a demo switcher.
+Every calendar has 24 doors that open one per day (enforced by the server), a dated activity timeline shows what happened when,
+and a project hub maps the Jira backlog to the code. The rewards and promo codes are simulated demo data, not real partnerships.
 
 > Project period 12 Oct - 12 Nov 2026. Final presentation and handover: 12 Nov 2026.
 
@@ -40,6 +42,10 @@ npm start                   # http://localhost:3000
 [supabase/schema.sql](supabase/schema.sql) and run it, then paste and run [supabase/seed.sql](supabase/seed.sql)
 (demo accounts, calendars, rewards, sessions; password `Demo1234!`). Both files are generated from the migrations and seeder
 (`npm run db:export-sql`) and are safe to re-run: they only touch this app's tables.
+
+**Already ran the earlier files and want to keep your data?** Run only
+[supabase/update-004-schedule-timeline.sql](supabase/update-004-schedule-timeline.sql) in a new query. It adds door scheduling,
+calendar membership and door-open history, and backfills them from existing completions.
 
 **Option B: from your machine.**
 1. In the Supabase dashboard open **Project Settings > Database > Connection string** and copy the **Session pooler** URI
@@ -116,6 +122,10 @@ high-balance users), a controlled set of promo codes, and sessions that are open
 | `npm run db:reset` | Drop all tables, migrate and seed |
 | `npm test` | Unit + integration tests (needs the local Docker database; never touches `DATABASE_URL`) |
 | `npm run test:unit` | Unit tests only (no database) |
+| `npm run db:export-sql` | Regenerate `supabase/*.sql` from the migrations and seeder |
+| `npm run backlog:import` | Rebuild `backend/data/backlog.json` and `documentation/REQUIREMENTS_COVERAGE.md` from `documentation/jira/SACA_backlog_export.csv` |
 
 More detail: [architecture](documentation/ARCHITECTURE.md), [API](documentation/API.md),
-[testing](documentation/TESTING.md), [handover](documentation/HANDOVER.md).
+[testing](documentation/TESTING.md), [handover](documentation/HANDOVER.md),
+[requirement coverage](documentation/REQUIREMENTS_COVERAGE.md), [final report](documentation/FINAL_REPORT.md),
+[UAT checklist](documentation/UAT_CHECKLIST.md), [demo script](documentation/DEMO_SCRIPT.md).

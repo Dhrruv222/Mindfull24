@@ -11,9 +11,11 @@ const REASONS = {
 export async function render(app) {
   const [rewards, redemptions] = await Promise.all([api.get('/rewards'), api.get('/rewards/redemptions')]);
   app.innerHTML = `${pageTitle('Rewards shop', 'Exchange your points for partner offers.')}
+    <p class="text-xs text-amber-900 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5"><i class="ph-fill ph-info"></i> <b>Demo rewards.</b> The partners and promo codes below are simulated for this MVP. They are not real partnerships and the codes cannot be used in real shops.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">${rewards.map((r) => `
       <div class="bg-white border border-sage-100 rounded-2xl p-5 flex flex-col ${r.locked ? 'opacity-80' : ''}">
-        <div class="flex justify-between items-start mb-2"><p class="text-xs text-gray-500">${esc(r.partner_name)}</p>${tierBadge(r.tier_required)}</div>
+        <div class="h-24 -mx-5 -mt-5 mb-4 rounded-t-2xl bg-gradient-to-br from-sage-100 to-amber-50 flex items-center justify-center text-sage-600 text-5xl"><i class="ph ${esc(r.icon)}"></i></div>
+        <div class="flex justify-between items-start mb-2"><p class="text-xs text-gray-500">${esc(r.partner_name)} <span class="text-[10px] uppercase tracking-wide text-gray-400">(demo)</span></p>${tierBadge(r.tier_required)}</div>
         <h3 class="font-display font-semibold text-lg text-sage-900">${esc(r.reward_title)}</h3>
         <p class="text-sm text-gray-600 my-2 flex-1">${esc(r.description)}</p>
         <p class="text-amber-700 font-semibold mb-3"><i class="ph-fill ph-star"></i> ${r.points_cost} points${r.points_missing && !r.locked ? ` <span class="text-xs text-gray-400 font-normal">(${r.points_missing} more needed)</span>` : ''}</p>

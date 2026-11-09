@@ -14,6 +14,10 @@ export async function render(app) {
     <div class="max-w-xl bg-white border border-sage-100 rounded-2xl p-6 text-center">
       <i class="ph-fill ph-dice-five text-5xl text-sage-500"></i>
       <p class="text-sm text-gray-500 mt-2">${s.pool_size} activities in your pool &bull; cooldown ${s.cooldown_minutes} min</p>
+      <div class="grid grid-cols-2 gap-3 mt-4 text-left">
+        <label class="block text-xs text-gray-500">Category<select id="f-category" class="mt-1 w-full border rounded-lg px-2 py-2 text-sm text-gray-800 bg-white"><option value="">Any category</option>${s.filters.categories.map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join('')}</select></label>
+        <label class="block text-xs text-gray-500">Time available<select id="f-minutes" class="mt-1 w-full border rounded-lg px-2 py-2 text-sm text-gray-800 bg-white"><option value="">Any duration</option>${s.filters.max_minutes.map((m) => `<option value="${m}">Up to ${m} min</option>`).join('')}</select></label>
+      </div>
       <button id="draw-btn" class="mt-5 px-6 py-3 rounded-xl font-medium text-white bg-sage-600 hover:bg-sage-700 disabled:bg-gray-300 disabled:cursor-not-allowed">Draw an activity</button>
       <p id="cooldown" class="text-sm text-amber-700 mt-3 min-h-5"></p>
       <div id="result" class="mt-4 text-left"></div>
@@ -53,7 +57,7 @@ export async function render(app) {
   btn.addEventListener('click', async () => {
     btn.disabled = true;
     try {
-      const res = await api.post('/randomizer/draw');
+      const res = await api.post('/randomizer/draw', { category: app.querySelector('#f-category').value || undefined, max_minutes: Number(app.querySelector('#f-minutes').value) || undefined });
       showActivity(res.activity);
       startCountdown(res.draw.cooldown_until);
     } catch (err) {
