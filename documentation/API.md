@@ -55,7 +55,7 @@ Errors: `{ "error": { "code": "...", "message": "...", ...extra } }`.
 | Method | Path | Notes |
 |---|---|---|
 | GET | /sessions | Upcoming sessions with host, activity, `member_count`, `capacity`, `status` |
-| POST | /sessions | `{title, description?, activity_id, session_date (future ISO), capacity (2-50)}`; creator joins automatically |
+| POST | /sessions | `{title, description?, activity_name (free text) or activity_id, session_date (future ISO), capacity (2-50)}`; creator joins automatically |
 | GET | /sessions/{id} | Details with participant names |
 | POST | /sessions/{id}/join | 409 `SESSION_FULL`, `SESSION_CLOSED`, `ALREADY_JOINED` |
 | GET | /sessions/my-sessions | Sessions the user belongs to |

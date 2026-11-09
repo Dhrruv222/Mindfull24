@@ -71,18 +71,12 @@ async function showDetails(id, app) {
 }
 
 async function createForm(app) {
-  const calendars = (await api.get('/calendars')).filter((c) => !c.locked && c.status === 'active');
-  const options = [];
-  for (const c of calendars) {
-    const doors = await api.get(`/calendars/${c.id}/activities`);
-    options.push(`<optgroup label="${esc(c.title)}">${doors.filter((d) => !d.locked).map((d) => `<option value="${d.id}">Day ${d.day_number}: ${esc(d.title)}</option>`).join('')}</optgroup>`);
-  }
   const soon = new Date(Date.now() + 24 * 3600 * 1000 - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
   openModal(`<div class="flex justify-between mb-3"><h3 class="font-display font-bold text-xl text-sage-900">Create a session</h3><button data-close aria-label="Close"><i class="ph ph-x text-xl"></i></button></div>
     <form id="session-form" class="space-y-3">
       <label class="block text-sm">Title<input name="title" required minlength="3" maxlength="120" class="mt-1 w-full border rounded-lg px-3 py-2"></label>
       <label class="block text-sm">Description<textarea name="description" maxlength="1000" rows="2" class="mt-1 w-full border rounded-lg px-3 py-2"></textarea></label>
-      <label class="block text-sm">Activity<select name="activity_id" class="mt-1 w-full border rounded-lg px-3 py-2">${options.join('')}</select></label>
+      <label class="block text-sm">Activity<input name="activity_name" required minlength="2" maxlength="200" placeholder="e.g. 20-minute morning walk" class="mt-1 w-full border rounded-lg px-3 py-2"></label>
       <div class="grid grid-cols-2 gap-3">
         <label class="block text-sm">Date &amp; time<input name="session_date" type="datetime-local" required value="${soon}" class="mt-1 w-full border rounded-lg px-3 py-2"></label>
         <label class="block text-sm">Capacity<input name="capacity" type="number" min="2" max="50" required value="6" class="mt-1 w-full border rounded-lg px-3 py-2"></label>
@@ -93,7 +87,7 @@ async function createForm(app) {
       e.preventDefault();
       const f = Object.fromEntries(new FormData(e.target));
       try {
-        await api.post('/sessions', { ...f, activity_id: Number(f.activity_id), capacity: Number(f.capacity), session_date: new Date(f.session_date).toISOString() });
+        await api.post('/sessions', { ...f, capacity: Number(f.capacity), session_date: new Date(f.session_date).toISOString() });
         toast('Session created', 'success');
         close();
         render(app);

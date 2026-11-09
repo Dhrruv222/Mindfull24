@@ -405,6 +405,19 @@ test('Epic 6 - group sessions', async (t) => {
     assert.equal(n, 2);
   });
 
+  await t.test('free-text activity sessions', async () => {
+    const token = await getToken('free');
+    const body = { title: 'Morning walk', capacity: 4, session_date: new Date(Date.now() + 86400000).toISOString(), activity_name: '20-minute walk in the park' };
+    const ok = await api('POST', '/api/sessions', { token, body });
+    assert.equal(ok.status, 201);
+    assert.equal(ok.body.activity.title, '20-minute walk in the park');
+    assert.equal(ok.body.activity_locked, false);
+    assert.equal((await api('POST', '/api/sessions', { token, body: { ...body, activity_name: 'x' } })).status, 400);
+    assert.equal((await api('POST', '/api/sessions', { token, body: { ...body, activity_name: undefined } })).status, 400);
+    const join = await api('POST', `/api/sessions/${ok.body.id}/join`, { token: await getToken('sam') });
+    assert.equal(join.status, 200);
+  });
+
   await t.test('creation validation, closing and tier rules', async () => {
     const token = await getToken('free');
     const activity = await mindActivity();

@@ -19,18 +19,20 @@ function validateCapacity(value) {
 }
 
 const SESSION_SELECT = `
-  SELECT s.id, s.creator_id, s.activity_id, s.title, s.description, s.session_date, s.capacity, s.status,
+  SELECT s.id, s.creator_id, s.activity_id, s.activity_name, s.title, s.description, s.session_date, s.capacity, s.status,
          u.name AS host_name, a.title AS activity_title, a.tier_required AS activity_tier,
          c.tier_required AS calendar_tier,
          (SELECT COUNT(*) FROM group_session_members m WHERE m.session_id = s.id) AS member_count,
          EXISTS (SELECT 1 FROM group_session_members m WHERE m.session_id = s.id AND m.user_id = $1) AS joined
   FROM group_sessions s
   JOIN users u ON u.id = s.creator_id
-  JOIN activities a ON a.id = s.activity_id
-  JOIN calendars c ON c.id = a.calendar_id`;
+  LEFT JOIN activities a ON a.id = s.activity_id
+  LEFT JOIN calendars c ON c.id = a.calendar_id`;
 
 function shape(row, user) {
-  const tier = catalog.effectiveTier({ tier_required: row.activity_tier, calendar_tier: row.calendar_tier });
+  const tier = row.activity_id
+    ? catalog.effectiveTier({ tier_required: row.activity_tier, calendar_tier: row.calendar_tier })
+    : 'free';
   return {
     id: row.id,
     title: row.title,
@@ -41,7 +43,7 @@ function shape(row, user) {
     spots_left: Math.max(0, row.capacity - row.member_count),
     status: effectiveStatus(row),
     host: { id: row.creator_id, name: row.host_name },
-    activity: { id: row.activity_id, title: row.activity_title, tier_required: tier },
+    activity: { id: row.activity_id, title: row.activity_name || row.activity_title, tier_required: tier },
     joined: !!row.joined,
     is_host: row.creator_id === user.id,
     activity_locked: !(user.subscription_tier === 'premium' || tier === 'free'),
@@ -84,14 +86,19 @@ async function create(user, body) {
   if (typeof body.session_date !== 'string' || Number.isNaN(date.getTime()) || date.getTime() <= Date.now()) {
     throw new HttpError(400, 'VALIDATION_ERROR', 'session_date must be a valid future date');
   }
-  const activityId = Number(body.activity_id);
-  if (!Number.isInteger(activityId) || activityId <= 0 || activityId > MAX_ID) throw new HttpError(400, 'VALIDATION_ERROR', 'activity_id is required');
+  const hasName = body.activity_name != null && body.activity_name !== '';
+  const activityName = hasName ? requireString(body.activity_name, 'Activity', { min: 2, max: 200 }) : null;
+  let activityId = null;
+  if (!activityName) {
+    activityId = Number(body.activity_id);
+    if (!Number.isInteger(activityId) || activityId <= 0 || activityId > MAX_ID) throw new HttpError(400, 'VALIDATION_ERROR', 'Activity is required');
+  }
 
   const id = await withTransaction(async (conn) => {
-    await catalog.getActivity(activityId, user, conn); // 404/403 if missing or locked for the host
+    if (activityId) await catalog.getActivity(activityId, user, conn); // 404/403 if missing or locked for the host
     const { rows: [created] } = await conn.query(
-      'INSERT INTO group_sessions (creator_id, activity_id, title, description, session_date, capacity) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-      [user.id, activityId, title, description, date, capacity],
+      'INSERT INTO group_sessions (creator_id, activity_id, activity_name, title, description, session_date, capacity) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+      [user.id, activityId, activityName, title, description, date, capacity],
     );
     await conn.query('INSERT INTO group_session_members (session_id, user_id) VALUES ($1, $2)', [created.id, user.id]);
     return created.id;
@@ -113,7 +120,7 @@ async function join(user, sessionId) {
     if (state === 'closed') throw new HttpError(409, 'SESSION_CLOSED', 'This session is closed');
     if (state === 'full') throw new HttpError(409, 'SESSION_FULL', 'This session is full');
 
-    await catalog.getActivity(session.activity_id, user, conn);
+    if (session.activity_id) await catalog.getActivity(session.activity_id, user, conn);
     try {
       await conn.query('INSERT INTO group_session_members (session_id, user_id) VALUES ($1, $2)', [sessionId, user.id]);
     } catch (err) {
