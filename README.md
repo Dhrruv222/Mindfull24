@@ -46,6 +46,9 @@ npm start                   # http://localhost:3000
 **Already ran the earlier files and want to keep your data?** Run only
 [supabase/update-004-schedule-timeline.sql](supabase/update-004-schedule-timeline.sql) in a new query. It adds door scheduling,
 calendar membership and door-open history, and backfills them from existing completions.
+If you already applied update 004 before the Fitness and Football calendars were expanded to 24 doors, also run
+[supabase/update-005-calendar-content.sql](supabase/update-005-calendar-content.sql). It inserts only missing doors 13–24
+and is safe to run more than once.
 
 **Option B: from your machine.**
 1. In the Supabase dashboard open **Project Settings > Database > Connection string** and copy the **Session pooler** URI

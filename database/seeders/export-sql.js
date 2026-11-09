@@ -96,10 +96,32 @@ function updateSql() {
   ].join('\n');
 }
 
+function calendarContentSql() {
+  const calendars = seed.buildCalendars();
+  const out = [
+    '-- Adds only activities missing from existing calendars; preserves users, history and existing activity IDs.',
+    '-- Safe to run more than once. Run after update-004-schedule-timeline.sql.',
+    'BEGIN;',
+  ];
+  for (const calendar of calendars) {
+    for (const activity of calendar.activities.filter((item) => item.day > 12)) {
+      out.push(
+        `INSERT INTO activities (calendar_id, title, description, instructions, day_number, points, duration, icon, tier_required, randomizer_eligible) ` +
+        `SELECT c.id, ${[activity.title, activity.description, activity.instructions, activity.day, activity.points, activity.duration, activity.icon, activity.tier, !!activity.randomizer].map(q).join(', ')} ` +
+        `FROM calendars c WHERE c.title = ${q(calendar.title)} ` +
+        `ON CONFLICT (calendar_id, day_number) DO NOTHING;`,
+      );
+    }
+  }
+  out.push('COMMIT;', '');
+  return out.join('\n');
+}
+
 function hash(s) { let h = 7; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) | 0; return h; }
 
 fs.mkdirSync(path.join(root, 'supabase'), { recursive: true });
 fs.writeFileSync(path.join(root, 'supabase', 'schema.sql'), schemaSql());
 fs.writeFileSync(path.join(root, 'supabase', 'seed.sql'), seedSql());
 fs.writeFileSync(path.join(root, 'supabase', 'update-004-schedule-timeline.sql'), updateSql());
-console.log('Wrote supabase/schema.sql, supabase/seed.sql and supabase/update-004-schedule-timeline.sql');
+fs.writeFileSync(path.join(root, 'supabase', 'update-005-calendar-content.sql'), calendarContentSql());
+console.log('Wrote schema.sql, seed.sql and non-destructive Supabase update scripts');
