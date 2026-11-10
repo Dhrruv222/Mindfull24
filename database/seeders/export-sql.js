@@ -49,16 +49,16 @@ function seedSql() {
     }
   }
   out.push('');
-  const mind = calendars[0];
+  const firstCalendar = calendars[0];
   for (const [key, count] of [['free', 2], ['premium', 3], ['alex', 1]]) {
     const email = seed.USERS.find((u) => u.key === key).email;
     for (let i = 0; i < count; i += 1) {
-      const a = mind.activities[i];
+      const a = firstCalendar.activities[i];
       balances[email] += a.points;
-      out.push(`INSERT INTO activity_completions (user_id, activity_id, points_awarded) VALUES (${uid(email)}, ${act(mind.title, a.day)}, ${a.points});`);
-      out.push(`INSERT INTO points_ledger (user_id, transaction_type, amount, balance_after, reference_type, reference_id, idempotency_key) VALUES (${uid(email)}, 'earn', ${a.points}, ${balances[email]}, 'activity', ${act(mind.title, a.day)}, ${q(`activity:${email}:${a.day}`)});`);
-      out.push(`INSERT INTO activity_opens (user_id, activity_id) VALUES (${uid(email)}, ${act(mind.title, a.day)});`);
-      out.push(`INSERT INTO user_calendars (user_id, calendar_id) VALUES (${uid(email)}, (SELECT id FROM calendars WHERE title = ${q(mind.title)})) ON CONFLICT DO NOTHING;`);
+      out.push(`INSERT INTO activity_completions (user_id, activity_id, points_awarded) VALUES (${uid(email)}, ${act(firstCalendar.title, a.day)}, ${a.points});`);
+      out.push(`INSERT INTO points_ledger (user_id, transaction_type, amount, balance_after, reference_type, reference_id, idempotency_key) VALUES (${uid(email)}, 'earn', ${a.points}, ${balances[email]}, 'activity', ${act(firstCalendar.title, a.day)}, ${q(`activity:${email}:${a.day}`)});`);
+      out.push(`INSERT INTO activity_opens (user_id, activity_id) VALUES (${uid(email)}, ${act(firstCalendar.title, a.day)});`);
+      out.push(`INSERT INTO user_calendars (user_id, calendar_id) VALUES (${uid(email)}, (SELECT id FROM calendars WHERE title = ${q(firstCalendar.title)})) ON CONFLICT DO NOTHING;`);
       out.push(`UPDATE users SET points_balance = ${balances[email]} WHERE email = ${q(email)};`);
     }
   }
@@ -72,7 +72,7 @@ function seedSql() {
   out.push('');
   const email = (key) => seed.USERS.find((u) => u.key === key).email;
   const sessions = [
-    ['alex', ['Mindfulness & Self-Help', 1], 'Morning Breathing Circle', 'Start the day with the 3-Breath Anchor together.', 2, 8, ['sam']],
+    ['alex', ['Hiking Adventures', 1], 'Weekend Trail Explorers', 'An easy local loop with a scenic stop and plenty of time to enjoy the outdoors.', 2, 8, ['sam']],
     ['sam', ['Fitness Challenge', 2], 'Lunchtime Walk', 'A friendly 10-minute walk around the block.', 3, 4, ['alex', 'free']],
     ['jordan', ['Football Skills Calendar', 9], 'Weekend 5-a-side', 'Small-sided game for Premium members.', 4, 2, ['premium']],
   ];
@@ -98,12 +98,13 @@ function updateSql() {
 
 function calendarContentSql() {
   const calendars = seed.buildCalendars();
+  const existingCalendars = calendars.filter((calendar) => ['Fitness', 'Football'].includes(calendar.category));
   const out = [
     '-- Adds only activities missing from existing calendars; preserves users, history and existing activity IDs.',
     '-- Safe to run more than once. Run after update-004-schedule-timeline.sql.',
     'BEGIN;',
   ];
-  for (const calendar of calendars) {
+  for (const calendar of existingCalendars) {
     for (const activity of calendar.activities.filter((item) => item.day > 12)) {
       out.push(
         `INSERT INTO activities (calendar_id, title, description, instructions, day_number, points, duration, icon, tier_required, randomizer_eligible) ` +
@@ -117,6 +118,37 @@ function calendarContentSql() {
   return out.join('\n');
 }
 
+function hikingCalendarSql() {
+  const hike = seed.buildCalendars().find((calendar) => calendar.category === 'Hiking');
+  if (!hike) throw new Error('The Hiking calendar is missing from the seeder');
+  const out = [
+    '-- Retires the old habit-style Mindfulness calendar and adds the 24-door Hiking Adventures calendar.',
+    '-- Existing activity, completion, points, and redemption rows are preserved.',
+    '-- Safe to run more than once.',
+    'BEGIN;',
+    "UPDATE calendars SET status = 'inactive' WHERE category = 'Mindfulness/Self-Help' OR title = 'Mindfulness & Self-Help';",
+    "UPDATE calendars SET status = 'active' WHERE title = 'Hiking Adventures' AND category = 'Hiking';",
+    `INSERT INTO calendars (title, category, description, icon, tier_required, status, start_date) ` +
+      `SELECT ${[hike.title, hike.category, hike.description, hike.icon, hike.tier, 'active'].map(q).join(', ')}, CURRENT_DATE - ${seed.DEMO_START_OFFSET} ` +
+      `WHERE NOT EXISTS (SELECT 1 FROM calendars WHERE title = ${q(hike.title)} AND category = ${q(hike.category)});`,
+    `UPDATE calendars SET start_date = CURRENT_DATE - ${seed.DEMO_START_OFFSET} ` +
+      `WHERE title = ${q(hike.title)} AND category = ${q(hike.category)} AND start_date IS NULL;`,
+    `UPDATE group_sessions SET status = 'closed' WHERE status IN ('open', 'full') AND activity_id IN (` +
+      `SELECT a.id FROM activities a JOIN calendars c ON c.id = a.calendar_id ` +
+      `WHERE c.category = 'Mindfulness/Self-Help' OR c.title = 'Mindfulness & Self-Help');`,
+  ];
+  for (const activity of hike.activities) {
+    out.push(
+      `INSERT INTO activities (calendar_id, title, description, instructions, day_number, points, duration, icon, tier_required, randomizer_eligible) ` +
+        `SELECT c.id, ${[activity.title, activity.description, activity.instructions, activity.day, activity.points, activity.duration, activity.icon, activity.tier, !!activity.randomizer].map(q).join(', ')} ` +
+        `FROM calendars c WHERE c.title = ${q(hike.title)} AND c.category = ${q(hike.category)} ` +
+        `ON CONFLICT (calendar_id, day_number) DO NOTHING;`,
+    );
+  }
+  out.push('COMMIT;', '');
+  return out.join('\n');
+}
+
 function hash(s) { let h = 7; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) | 0; return h; }
 
 fs.mkdirSync(path.join(root, 'supabase'), { recursive: true });
@@ -124,4 +156,5 @@ fs.writeFileSync(path.join(root, 'supabase', 'schema.sql'), schemaSql());
 fs.writeFileSync(path.join(root, 'supabase', 'seed.sql'), seedSql());
 fs.writeFileSync(path.join(root, 'supabase', 'update-004-schedule-timeline.sql'), updateSql());
 fs.writeFileSync(path.join(root, 'supabase', 'update-005-calendar-content.sql'), calendarContentSql());
+fs.writeFileSync(path.join(root, 'supabase', 'update-006-hiking-calendar.sql'), hikingCalendarSql());
 console.log('Wrote schema.sql, seed.sql and non-destructive Supabase update scripts');

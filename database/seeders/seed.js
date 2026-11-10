@@ -2,7 +2,7 @@
 const bcrypt = require('bcryptjs');
 const config = require('../../backend/config');
 const { pool } = require('../../backend/db');
-const mindfulness = require('./data/mindfulness.json');
+const hiking = require('./data/hiking');
 const football = require('./data/football');
 const fitness = require('./data/fitness');
 
@@ -27,19 +27,19 @@ const USERS = [
 const REWARDS = [
   { partner: 'Bean & Leaf Cafe', title: 'Free Coffee', icon: 'ph-coffee', cost: 50, tier: 'free', description: 'One free regular coffee at any Bean & Leaf Cafe.', prefix: 'COFFEE', codes: 4 },
   { partner: 'FitFuel Store', title: '10% Off Sports Nutrition', icon: 'ph-barbell', cost: 100, tier: 'free', description: '10% off your next order of protein and snacks.', prefix: 'FUEL10', codes: 4 },
-  { partner: 'Calm Corner Books', title: 'Free eBook', icon: 'ph-book-open-text', cost: 150, tier: 'free', description: 'Choose any mindfulness or wellbeing eBook for free.', prefix: 'BOOK', codes: 3 },
+  { partner: 'Calm Corner Books', title: 'Free eBook', icon: 'ph-book-open-text', cost: 150, tier: 'free', description: 'Choose any wellbeing eBook for free.', prefix: 'BOOK', codes: 3 },
   { partner: 'Kick-Off Sports', title: '15% Off Football Gear', icon: 'ph-soccer-ball', cost: 250, tier: 'free', description: '15% off boots, balls and training kit.', prefix: 'KICK15', codes: 3 },
   { partner: 'Zen Studio', title: 'Free Yoga Class', icon: 'ph-flower-lotus', cost: 400, tier: 'premium', description: 'A free drop-in yoga class. Premium members only.', prefix: 'YOGA', codes: 3 },
   { partner: 'ProStadium Tickets', title: 'Match Day Experience', icon: 'ph-ticket', cost: 1500, tier: 'premium', description: 'Two tickets and a stadium tour. Premium members only.', prefix: 'STADIUM', codes: 2 },
 ];
 
 function buildCalendars() {
-  const mind = {
-    title: 'Mindfulness & Self-Help', category: 'Mindfulness/Self-Help', icon: 'ph-flower-lotus', tier: 'free', status: 'active',
-    description: '24 small daily wellbeing activities for calm, focus and kindness to yourself.',
-    activities: mindfulness.map((a, i) => ({
-      day: a.day, title: a.title, description: a.benefit, instructions: a.description, duration: a.duration, icon: a.icon,
-      points: (i + 1) % 8 === 0 ? 30 : 20, tier: 'free', randomizer: i % 2 === 0,
+  const hike = {
+    title: 'Hiking Adventures', category: 'Hiking', icon: 'ph-mountains', tier: 'free', status: 'active',
+    description: 'Twenty-four outdoor mini-adventures: discover local trails, viewpoints, forests and hidden green spaces at your own pace.',
+    activities: hiking.map(([title, duration, icon, description, instructions, tier], i) => ({
+      day: i + 1, title, description, instructions, duration, icon,
+      points: (i + 1) % 6 === 0 ? 30 : 20, tier, randomizer: i % 2 === 0,
     })),
   };
   const fit = {
@@ -60,7 +60,7 @@ function buildCalendars() {
     title: 'Nutrition & Cooking', category: 'Nutrition', icon: 'ph-bowl-food', tier: 'free', status: 'coming_soon',
     description: 'Simple healthy recipes and habits. Coming soon.', activities: [],
   };
-  return [mind, fit, ball, soon];
+  return [hike, fit, ball, soon];
 }
 
 async function insertLedger(db, userId, type, amount, balanceAfter, refType, refId, key) {
@@ -89,8 +89,8 @@ async function seed({ startOffsetDays = DEMO_START_OFFSET } = {}) {
       if (u.points > 0) await insertLedger(db, r.id, 'earn', u.points, u.points, 'seed', null, `seed:${r.id}`);
     }
 
-    const activityIds = { mindfulness: [], fitness: [], football: [] };
-    const keys = ['mindfulness', 'fitness', 'football', null];
+    const activityIds = { hiking: [], fitness: [], football: [] };
+    const keys = ['hiking', 'fitness', 'football', null];
     for (const [ci, c] of buildCalendars().entries()) {
       const { rows: [cal] } = await db.query(
         'INSERT INTO calendars (title, category, description, icon, tier_required, status, start_date) VALUES ($1, $2, $3, $4, $5, $6, CURRENT_DATE - $7::int) RETURNING id',
@@ -109,7 +109,7 @@ async function seed({ startOffsetDays = DEMO_START_OFFSET } = {}) {
     // A little history so profiles and ledgers are not empty (ledger balances stay consistent).
     for (const [who, count] of [['free', 2], ['premium', 3], ['alex', 1]]) {
       for (let i = 0; i < count; i += 1) {
-        const activityId = activityIds.mindfulness[i];
+        const activityId = activityIds.hiking[i];
         const { rows: [act] } = await db.query('SELECT points FROM activities WHERE id = $1', [activityId]);
         await db.query('INSERT INTO activity_completions (user_id, activity_id, points_awarded) VALUES ($1, $2, $3)', [users[who], activityId, act.points]);
         await db.query('INSERT INTO activity_opens (user_id, activity_id) VALUES ($1, $2)', [users[who], activityId]);
@@ -121,8 +121,8 @@ async function seed({ startOffsetDays = DEMO_START_OFFSET } = {}) {
 
     for (const r of REWARDS) {
       const { rows: [reward] } = await db.query(
-        'INSERT INTO rewards (partner_name, reward_title, description,         points_cost, availability, icon) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-                [r.partner, r.title, r.description, r.cost, r.tier, r.icon],
+        'INSERT INTO rewards (partner_name, reward_title, description, points_cost, availability, icon) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+        [r.partner, r.title, r.description, r.cost, r.tier, r.icon],
       );
       for (let i = 1; i <= r.codes; i += 1) {
         await db.query('INSERT INTO promo_codes (reward_id, promo_code) VALUES ($1, $2)', [reward.id, `${r.prefix}-${reward.id * 1000 + i}`]);
@@ -131,7 +131,7 @@ async function seed({ startOffsetDays = DEMO_START_OFFSET } = {}) {
 
     const now = Date.now();
     const sessions = [
-      { host: 'alex', activity: activityIds.mindfulness[0], title: 'Morning Breathing Circle', description: 'Start the day with the 3-Breath Anchor together.', date: now + 2 * DAY, capacity: 8, members: ['sam'] },
+      { host: 'alex', activity: activityIds.hiking[0], title: 'Weekend Trail Explorers', description: 'An easy local loop with a scenic stop and plenty of time to enjoy the outdoors.', date: now + 2 * DAY, capacity: 8, members: ['sam'] },
       { host: 'sam', activity: activityIds.fitness[1], title: 'Lunchtime Walk', description: 'A friendly 10-minute walk around the block.', date: now + 3 * DAY, capacity: 4, members: ['alex', 'free'] },
       { host: 'jordan', activity: activityIds.football[8], title: 'Weekend 5-a-side', description: 'Small-sided game for Premium members.', date: now + 4 * DAY, capacity: 2, members: ['premium'] },
     ];

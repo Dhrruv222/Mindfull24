@@ -1,7 +1,7 @@
 # Advent Calendar (SACA)
 
 Gamified activity advent-calendar platform. Users register, open daily doors in specialised calendars
-(Mindfulness/Self-Help, Fitness, Football), complete activities to earn points, use a randomizer with a server-enforced
+(Hiking, Fitness, Football), complete activities to earn points, use a randomizer with a server-enforced
 cooldown, redeem partner rewards for unique promo codes, join group sessions and try the Free/Premium tiers through a demo switcher.
 Every calendar has 24 doors that open one per day (enforced by the server), a dated activity timeline shows what happened when,
 and a project hub maps the Jira backlog to the code. The rewards and promo codes are simulated demo data, not real partnerships.
@@ -49,6 +49,9 @@ calendar membership and door-open history, and backfills them from existing comp
 If you already applied update 004 before the Fitness and Football calendars were expanded to 24 doors, also run
 [supabase/update-005-calendar-content.sql](supabase/update-005-calendar-content.sql). It inserts only missing doors 13–24
 and is safe to run more than once.
+To replace the old Mindfulness calendar with Hiking Adventures while keeping its existing history, run
+[supabase/update-006-hiking-calendar.sql](supabase/update-006-hiking-calendar.sql). It hides the old calendar instead of deleting it,
+adds the 24 Hiking activities, and closes any old upcoming sessions tied to Mindfulness.
 
 **Option B: from your machine.**
 1. In the Supabase dashboard open **Project Settings > Database > Connection string** and copy the **Session pooler** URI

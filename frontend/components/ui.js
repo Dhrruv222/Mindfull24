@@ -41,6 +41,7 @@ export const lockedNotice = () => `
 
 // Each calendar category gets its own colour identity.
 const THEMES = {
+  Hiking: { tile: 'bg-emerald-100 text-emerald-800', door: 'bg-emerald-50 border-emerald-200 text-emerald-900', bar: 'bg-emerald-600', head: 'from-emerald-50 to-white border-emerald-100' },
   Fitness: { tile: 'bg-orange-100 text-orange-700', door: 'bg-orange-50 border-orange-200 text-orange-800', bar: 'bg-orange-500', head: 'from-orange-50 to-white border-orange-100' },
   Football: { tile: 'bg-sky-100 text-sky-700', door: 'bg-sky-50 border-sky-200 text-sky-800', bar: 'bg-sky-500', head: 'from-sky-50 to-white border-sky-100' },
   Nutrition: { tile: 'bg-lime-100 text-lime-700', door: 'bg-lime-50 border-lime-200 text-lime-800', bar: 'bg-lime-500', head: 'from-lime-50 to-white border-lime-100' },

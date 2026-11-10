@@ -33,7 +33,7 @@ A short smoke version:
 Record results and Product Owner feedback in Jira.
 
 1. Register a new account, log in, check profile and points.
-2. As `free@demo.saca.test`, open Mindfulness, complete a door, see points and history update.
+2. As `free@demo.saca.test`, open Hiking, complete a door, see points and history update.
 3. Try to open the Football calendar and a locked Fitness door (Premium lock shown).
 4. Use the randomizer twice: the second draw shows the cooldown timer.
 5. Redeem "Free Coffee" and verify the code appears in My redemptions; try a reward you cannot afford (`sam@demo.saca.test`).

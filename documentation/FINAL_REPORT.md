@@ -8,8 +8,8 @@ Part A (requirement coverage) is [REQUIREMENTS_COVERAGE.md](REQUIREMENTS_COVERAG
 |---|---|---|
 | Excel requirements workbook | Not present in the repository or on the development machine | Not used. Entitlement rules follow the Jira acceptance criteria. Anything that depends on the workbook is flagged below |
 | Jira board | Only the CSV export `documentation/jira/SACA_backlog_export.csv` (47 items) is available. It has no status, sprint, assignee, parent, dependency or blocker data | The hub shows exactly what the export contains. Parent links are marked *inferred* |
-| Calendar themes | The brief lists Solo Urban Walks, Creative Home Projects and Mindful Cooking. The Jira stories (SACA-11, SACA-38) specify **Football, Fitness and Mindfulness/Self-Help** | The documented Jira scope was followed. Only a "Nutrition" calendar is shown as coming soon |
-| 24 doors per calendar | Mindfulness had 24 doors. Fitness and Football had 12 | Both extended to 24 with new activities |
+| Calendar themes | The brief lists Solo Urban Walks, Creative Home Projects and Mindful Cooking. The Jira stories (SACA-11, SACA-38) specify Football, Fitness and Mindfulness/Self-Help. The Product Owner later asked to replace the habit-style Mindfulness calendar with Hiking | Hiking is now an active Free calendar. The old Mindfulness calendar is marked inactive in the live DB; old history is retained |
+| 24 doors per calendar | The previous seed had 24 Mindfulness doors and 12 each for Fitness and Football | The selected Hiking replacement, Fitness and Football now each have 24 doors; the inactive Mindfulness data remains for history |
 | Chronological unlocking | Not implemented. Doors were locked only by tier | Implemented server-side (see below) |
 | Project period | The brief says 12 Oct to 12 Nov 2026. Backlog dates are 2 Nov to 12 Nov 2026 | Both are shown on the hub |
 
@@ -17,7 +17,7 @@ Part A (requirement coverage) is [REQUIREMENTS_COVERAGE.md](REQUIREMENTS_COVERAG
 
 | Module | Before this iteration | Now |
 |---|---|---|
-| Multi-calendar engine | Implemented (catalogue, tiers) | **Improved**: per-calendar colour identity, start date, doors open, discovered and completed counts, next unlock, "Start this calendar" activation |
+| Multi-calendar engine | Implemented (catalogue, tiers) | **Improved**: Hiking, Fitness and Football active; per-calendar colour identity, start date, doors open, discovered and completed counts, next unlock, "Start this calendar" activation |
 | 24-door calendar | Partial (no dates, 12 doors in two calendars) | **Improved**: 24 doors each, date-based unlocking enforced in SQL, scheduled doors hide their content, opened and completed history, door-opening animation, five distinct door states |
 | Randomizer | Implemented (cooldown, pool) | **Improved**: category and duration filters, draw grants on-demand access, a no-match draw does not use the cooldown |
 | Points ledger | Implemented | Unchanged (verified by tests) |
@@ -61,4 +61,4 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) and [API.md](API.md). New in this iterati
 5. No browser end-to-end suite; browser checks were a scripted walkthrough.
 6. Door dates use UTC. A time-zone setting per user is not implemented.
 7. Cooldown lengths, point values and the Free/Premium split are the Product Owner's decisions to confirm.
-8. Because the three seeded calendars are Football, Fitness and Mindfulness, the brief's example themes (urban walks, creative projects, cooking) are not included.
+8. The brief's example themes (urban walks, creative projects, cooking) and Jira's original Mindfulness theme differ from the selected Hiking replacement; the Urban Walks and Creative Home Projects calendars are not included.

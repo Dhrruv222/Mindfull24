@@ -6,7 +6,7 @@ Run `npm run db:reset` or re-run `supabase/seed.sql` before presenting, so the d
 | Time | Do | Say |
 |---|---|---|
 | 0:00 | Log in as `free@demo.saca.test` | "SACA turns daily leisure into something to look forward to. We avoid streaks and guilt." |
-| 0:45 | Calendars, then Mindfulness | "24 doors. Doors up to today are open. Later doors are sealed until their own date." |
+| 0:45 | Calendars, then Hiking Adventures | "A 24-door outdoor discovery calendar: trail missions, scenic viewpoints and nature quests. Doors up to today are open; later doors are sealed until their own date." |
 | 1:30 | Click a sealed door | "The server enforces the date. Calling the API directly returns 403, not just a disabled button." |
 | 2:15 | Open a door and complete it | "Opening records when you discovered it. Completion awards points once through a ledger." |
 | 3:00 | Randomizer: pick a category and a time limit, draw twice | "On-demand activity. The cooldown is enforced on the server, so refreshing does not help." |

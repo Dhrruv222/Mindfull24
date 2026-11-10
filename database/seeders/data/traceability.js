@@ -55,7 +55,7 @@ module.exports = {
     'SACA-35': T('implemented', 'tests/integration/platform.test.js', 'npm test', 'API, security, concurrency and regression tests against PostgreSQL.'),
     'SACA-36': T('implemented', 'README.md, documentation/*', 'Document review', 'Includes the Vercel and Supabase runbook.'),
     'SACA-37': T('implemented', 'backend/services/entitlements.js, Subscription page', 'Unit and Epic 7 tests', 'The Excel entitlement matrix was not available. Rules follow the Jira acceptance criteria.'),
-    'SACA-38': T('implemented', 'database/seeders/* (Football, Fitness, Mindfulness)', 'Seed run + tests', ''),
+    'SACA-38': T('implemented', 'database/seeders/* (Hiking, Fitness, Football)', 'Seed run + tests', 'Product-owner change: Hiking replaces the Jira-export Mindfulness calendar; existing Mindfulness activity and points history is preserved in the live database.'),
     'SACA-39': T('implemented', 'database/seeders/seed.js (REWARDS)', 'Epic 5 tests', 'Clearly labelled demo partners and demo codes.'),
     'SACA-40': T('partial', 'documentation/UAT_CHECKLIST.md, seeded demo accounts', 'Document review', 'Checklist and test data prepared. It has not been run by the team.'),
     'SACA-41': T('outstanding', 'documentation/UAT_CHECKLIST.md', '', 'Needs the team to execute UAT and record outcomes.'),

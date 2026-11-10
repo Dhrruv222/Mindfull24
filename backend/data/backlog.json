@@ -1193,9 +1193,9 @@
       "parent_source": "inferred",
       "implementation": {
         "status": "implemented",
-        "module": "database/seeders/* (Football, Fitness, Mindfulness)",
+        "module": "database/seeders/* (Hiking, Fitness, Football)",
         "evidence": "Seed run + tests",
-        "notes": ""
+        "notes": "Product-owner change: Hiking replaces the Jira-export Mindfulness calendar; existing Mindfulness activity and points history is preserved in the live database."
       }
     },
     {

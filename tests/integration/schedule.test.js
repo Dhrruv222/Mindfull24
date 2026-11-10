@@ -18,8 +18,8 @@ test('SACA-11 - doors open chronologically and the server enforces it', async (t
   await setStart(0); // only door 1 is open today
   tokens.sched = (await api('POST', '/api/register', { body: { name: 'Schedule User', email: 'schedule@example.com', password: 'Secret123' } })).body.token;
   const token = tokens.sched;
-  const mind = await calendarOf(token, 'Mindfulness/Self-Help');
-  const doors = () => api('GET', `/api/calendars/${mind.id}/activities`, { token }).then((r) => r.body);
+  const hiking = await calendarOf(token, 'Hiking');
+  const doors = () => api('GET', `/api/calendars/${hiking.id}/activities`, { token }).then((r) => r.body);
   let list = await doors();
 
   await t.test('future doors are listed as scheduled and reveal nothing', async () => {
@@ -50,7 +50,7 @@ test('SACA-11 - doors open chronologically and the server enforces it', async (t
     assert.ok(first.body.instructions);
     const again = await api('POST', `/api/activities/${list[0].id}/open`, { token });
     assert.equal(again.body.opened_at, first.body.opened_at);
-    const cal = await calendarOf(token, 'Mindfulness/Self-Help');
+    const cal = await calendarOf(token, 'Hiking');
     assert.equal(cal.joined, true);
     assert.equal(cal.opened_activities, 1);
     assert.equal(cal.unlocked_doors, 1);
@@ -84,8 +84,8 @@ test('SACA-11 - doors open chronologically and the server enforces it', async (t
 test('SACA-12 - a randomizer draw gives on-demand access to that activity', async () => {
   await setStart(30); // every door is sealed
   const token = await getToken('premium');
-  const mind = await calendarOf(token, 'Mindfulness/Self-Help');
-  const sealed = (await api('GET', `/api/calendars/${mind.id}/activities`, { token })).body;
+  const hiking = await calendarOf(token, 'Hiking');
+  const sealed = (await api('GET', `/api/calendars/${hiking.id}/activities`, { token })).body;
   assert.ok(sealed.every((d) => d.state === 'scheduled' || d.completed));
 
   const draw = await api('POST', '/api/randomizer/draw', { token });
@@ -102,17 +102,20 @@ test('SACA-12 - a randomizer draw gives on-demand access to that activity', asyn
 
 test('Calendar activation follows entitlements', async (t) => {
   const token = await getToken('sam');
-  const mind = await calendarOf(token, 'Mindfulness/Self-Help');
+  const hiking = await calendarOf(token, 'Hiking');
   const football = await calendarOf(token, 'Football');
   const soon = await calendarOf(token, 'Nutrition');
 
   await t.test('free users can start free calendars (repeatedly) but not Premium ones', async () => {
-    assert.equal((await api('POST', `/api/calendars/${mind.id}/join`, { token })).body.joined, true);
-    assert.equal((await api('POST', `/api/calendars/${mind.id}/join`, { token })).status, 200);
+    assert.equal((await api('POST', `/api/calendars/${hiking.id}/join`, { token })).body.joined, true);
+    assert.equal((await api('POST', `/api/calendars/${hiking.id}/join`, { token })).status, 200);
     const res = await api('POST', `/api/calendars/${football.id}/join`, { token });
     assert.equal(res.status, 403);
     assert.equal(res.body.error.code, 'PREMIUM_REQUIRED');
-    const { rows: [{ n }] } = await pool.query('SELECT COUNT(*) AS n FROM user_calendars WHERE calendar_id = $1', [football.id]);
+    const { rows: [{ n }] } = await pool.query(
+      'SELECT COUNT(*) AS n FROM user_calendars WHERE calendar_id = $1 AND user_id = (SELECT id FROM users WHERE email = $2)',
+      [football.id, 'sam@demo.saca.test'],
+    );
     assert.equal(n, 0);
   });
 
@@ -120,7 +123,7 @@ test('Calendar activation follows entitlements', async (t) => {
     assert.equal((await api('POST', `/api/calendars/${soon.id}/join`, { token })).body.error.code, 'CALENDAR_UNAVAILABLE');
     assert.equal((await api('POST', '/api/calendars/99999/join', { token })).status, 404);
     assert.equal((await api('POST', '/api/calendars/abc/join', { token })).status, 400);
-    assert.equal((await api('POST', `/api/calendars/${mind.id}/join`)).status, 401);
+    assert.equal((await api('POST', `/api/calendars/${hiking.id}/join`)).status, 401);
   });
 });
 
@@ -168,8 +171,8 @@ test('Timeline - dated history built only from real records', async (t) => {
   tokens.tl = (await api('POST', '/api/register', { body: { name: 'Timeline User', email: 'timeline@example.com', password: 'Secret123' } })).body.token;
   tokens.other = (await api('POST', '/api/register', { body: { name: 'Other User', email: 'other@example.com', password: 'Secret123' } })).body.token;
   const token = tokens.tl;
-  const mind = await calendarOf(token, 'Mindfulness/Self-Help');
-  const doors = (await api('GET', `/api/calendars/${mind.id}/activities`, { token })).body;
+  const hiking = await calendarOf(token, 'Hiking');
+  const doors = (await api('GET', `/api/calendars/${hiking.id}/activities`, { token })).body;
   await api('POST', `/api/activities/${doors[3].id}/open`, { token });
   await api('POST', `/api/activities/${doors[3].id}/complete`, { token });
   await api('POST', `/api/activities/${doors[4].id}/open`, { token });

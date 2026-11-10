@@ -48,7 +48,7 @@ Additions beyond the suggested fields:
 
 | Area | Free | Premium |
 |---|---|---|
-| Calendars | Mindfulness, Fitness (basic doors) | all, including Football and premium Fitness doors |
+| Calendars | Hiking, Fitness (basic doors) | all, including Football and premium Fitness doors |
 | Randomizer | free pool, 60 min cooldown | all accessible activities, 15 min cooldown |
 | Rewards | free offers | all offers |
 | Group sessions | sessions on free activities | all sessions |

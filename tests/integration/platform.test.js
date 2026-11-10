@@ -100,6 +100,8 @@ test('Epic 2 & 7 - calendars and tier restrictions are enforced by the backend',
   await t.test('catalogue shows tiers and locks', async () => {
     calendars = (await api('GET', '/api/calendars', { token: free })).body;
     assert.equal(calendars.length, 4);
+    assert.equal(findBy(calendars, 'category', 'Hiking').total_activities, 24);
+    assert.equal(findBy(calendars, 'category', 'Mindfulness/Self-Help'), undefined);
     assert.equal(findBy(calendars, 'category', 'Football').locked, true);
     assert.equal(findBy(calendars, 'category', 'Football').tier_required, 'premium');
     assert.equal(findBy(calendars, 'category', 'Fitness').locked, false);
@@ -145,10 +147,10 @@ test('Epic 2 & 7 - calendars and tier restrictions are enforced by the backend',
   });
 });
 
-test('Epic 4 - activity completion awards points exactly once', async (t) => {
+test('Epic 4 - hiking completion awards points exactly once', async (t) => {
   const token = await getToken('sam');
-  const mind = findBy((await api('GET', '/api/calendars', { token })).body, 'category', 'Mindfulness/Self-Help');
-  const doors = (await api('GET', `/api/calendars/${mind.id}/activities`, { token })).body;
+  const hiking = findBy((await api('GET', '/api/calendars', { token })).body, 'category', 'Hiking');
+  const doors = (await api('GET', `/api/calendars/${hiking.id}/activities`, { token })).body;
 
   await t.test('first completion awards points and writes a ledger row', async () => {
     const before = (await api('GET', '/api/points/balance', { token })).body.balance;
@@ -183,7 +185,7 @@ test('Epic 4 - activity completion awards points exactly once', async (t) => {
   await t.test('completed doors appear in profile history and calendar progress', async () => {
     const history = (await api('GET', '/api/profile/history', { token })).body;
     assert.equal(history.length, 2);
-    const refreshed = (await api('GET', `/api/calendars/${mind.id}/activities`, { token })).body;
+    const refreshed = (await api('GET', `/api/calendars/${hiking.id}/activities`, { token })).body;
     assert.equal(refreshed.filter((d) => d.completed).length, 2);
   });
 });
@@ -349,15 +351,15 @@ test('Epic 5 - rewards and atomic redemption', async (t) => {
 
 test('Epic 6 - group sessions', async (t) => {
   const listFor = async (key) => (await api('GET', '/api/sessions', { token: await getToken(key) })).body;
-  const mindActivity = async () => {
-    const cal = findBy((await api('GET', '/api/calendars', { token: await getToken('free') })).body, 'category', 'Mindfulness/Self-Help');
+  const hikingActivity = async () => {
+    const cal = findBy((await api('GET', '/api/calendars', { token: await getToken('free') })).body, 'category', 'Hiking');
     return (await api('GET', `/api/calendars/${cal.id}/activities`, { token: await getToken('free') })).body[0];
   };
 
   await t.test('discovery shows host, capacity, member count and status', async () => {
     const list = await listFor('sam');
     const states = Object.fromEntries(list.map((s) => [s.title, s.status]));
-    assert.equal(states['Morning Breathing Circle'], 'open');
+    assert.equal(states['Weekend Trail Explorers'], 'open');
     assert.equal(states['Weekend 5-a-side'], 'full');
     const walk = findBy(list, 'title', 'Lunchtime Walk');
     assert.equal(walk.spots_left, 1);
@@ -367,7 +369,7 @@ test('Epic 6 - group sessions', async (t) => {
 
   await t.test('join, duplicate join and my-sessions', async () => {
     const token = await getToken('premium');
-    const circle = findBy(await listFor('premium'), 'title', 'Morning Breathing Circle');
+    const circle = findBy(await listFor('premium'), 'title', 'Weekend Trail Explorers');
     const res = await api('POST', `/api/sessions/${circle.id}/join`, { token });
     assert.equal(res.status, 200);
     assert.equal(res.body.joined, true);
@@ -392,7 +394,7 @@ test('Epic 6 - group sessions', async (t) => {
   });
 
   await t.test('parallel joins never exceed capacity', async () => {
-    const activity = await mindActivity();
+    const activity = await hikingActivity();
     const created = await api('POST', '/api/sessions', {
       token: await getToken('sam'),
       body: { title: 'Race Condition Circle', description: '', capacity: 2, session_date: new Date(Date.now() + 86400000).toISOString(), activity_id: activity.id },
@@ -420,7 +422,7 @@ test('Epic 6 - group sessions', async (t) => {
 
   await t.test('creation validation, closing and tier rules', async () => {
     const token = await getToken('free');
-    const activity = await mindActivity();
+    const activity = await hikingActivity();
     const base = { title: 'Valid title', capacity: 4, session_date: new Date(Date.now() + 86400000).toISOString(), activity_id: activity.id };
     assert.equal((await api('POST', '/api/sessions', { token, body: { ...base, session_date: new Date(Date.now() - 1000).toISOString() } })).status, 400);
     assert.equal((await api('POST', '/api/sessions', { token, body: { ...base, capacity: 1 } })).status, 400);
